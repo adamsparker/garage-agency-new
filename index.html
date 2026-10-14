@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garage Agency — портфолио</title>
+<meta name="description" content="Garage Agency — дизайн и разработка цифровых продуктов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Doto:wght@500;800&display=swap" rel="stylesheet">
+<script>try{if(!matchMedia('(prefers-reduced-motion:reduce)').matches&&!location.hash)document.documentElement.classList.add('ld')}catch(e){}</script>
+<style>
+  /* =========================================================
+     DESIGN SYSTEM
+     палитра: ink / paper / один акцент
+     радиусы: --r (карточки), --r-s (мелкие), pill
+     шрифты: Inter Tight (текст), JetBrains Mono (подписи), Doto (цифры)
+     ========================================================= */
+  :root{
+    --bg:#ebe9e3;
+    --surface:#f6f5f1;
+    --surface-2:#dedbd3;
+    --grey:#c6c3ba;
+    --ink:#0c0c0c;
+    --muted:#77746d;
+    --line:rgba(12,12,12,.12);
+    --accent:#50c878;
+    --accent-deep:#0b6e4f;
+    --r:28px;
+    --r-s:14px;
+    --sans:'Inter Tight',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --dot:'Doto','JetBrains Mono',monospace;
+    --grid:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+  main>section,footer{position:relative;z-index:1}
+
+  /* ---------- dot background ---------- */
+  .dots,.dotfx{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .dots{background-image:radial-gradient(circle,rgba(12,12,12,.24) 1.1px,transparent 1.5px);background-size:var(--grid) var(--grid)}
+  .dotfx{background-image:radial-gradient(circle,var(--accent) 1.8px,transparent 2.2px);background-size:var(--grid) var(--grid);
+    -webkit-mask-image:radial-gradient(circle 170px at var(--mx,-999px) var(--my,-999px),#000,transparent);
+    mask-image:radial-gradient(circle 170px at var(--mx,-999px) var(--my,-999px),#000,transparent)}
+
+  /* ---------- shared atoms ---------- */
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .h2{font-size:clamp(34px,4.6vw,58px);letter-spacing:-.045em;font-weight:600;line-height:1}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+  .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);border-radius:99px;padding:7px 14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;background:transparent}
+  .btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;padding:16px 26px;border-radius:99px;font-weight:500;font-size:14px;transition:transform .25s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .sh{display:flex;justify-content:space-between;align-items:end;margin-bottom:46px;gap:30px;flex-wrap:wrap}
+  .sh .h2{margin-top:16px}
+  .sh p{max-width:320px;font-size:14px;color:var(--muted);line-height:1.5}
+
+  /* ---------- logo ---------- */
+  .lg{display:block;width:128px;height:22.5px;overflow:visible}
+  .wordmark .lg{width:100%;height:auto;aspect-ratio:683/120;}
+
+  /* ---------- NAV ---------- */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;padding:16px 0;transition:background .3s,backdrop-filter .3s}
+  header.scrolled{background:rgba(235,233,227,.78);backdrop-filter:blur(14px)}
+  .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+  .logo{font-weight:600;font-size:15px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .logo i{width:14px;height:14px;border-radius:50%;background:var(--accent)}
+  .links{display:flex;gap:6px;font-size:13px;font-weight:500;padding:5px;border:1px solid var(--line);border-radius:99px;background:rgba(246,245,241,.7);backdrop-filter:blur(10px)}
+  .links a{padding:7px 14px;border-radius:99px;transition:background .2s,color .2s}
+  .links a:hover{background:var(--ink);color:#fff}
+  .right{display:flex;justify-content:flex-end;align-items:center;gap:10px}
+  .right a{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--ink);border-radius:99px;padding:9px 16px;transition:.2s}
+  .right a:hover{background:var(--ink);color:#fff}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:150px 0 100px}
+  .hero .top{text-align:center}
+  .hero .eyebrow{margin-bottom:26px}
+  .hero .eyebrow::before{animation:blink 1.6s steps(2) infinite}
+  @keyframes blink{50%{opacity:.15}}
+  h1{font-size:clamp(40px,6.2vw,78px);line-height:.98;letter-spacing:-.05em;font-weight:600;max-width:900px;margin:0 auto}
+  .sub{max-width:430px;margin:26px auto 0;font-size:15px;line-height:1.5;color:#3d3b37}
+  .sub b{font-weight:500;box-shadow:inset 0 -.45em 0 rgba(80,200,120,.25)}
+  .tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+  .hero .btn{margin-top:34px}
+
+  .stacks{display:grid;grid-template-columns:repeat(3,1fr);gap:80px 40px;margin-top:100px}
+  .stack{display:flex;flex-direction:column;align-items:center;gap:24px;cursor:pointer}
+  .pile{position:relative;width:210px;height:170px}
+  .sheet,.cardx{position:absolute;border-radius:var(--r-s);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .sheet{inset:0;border:1px solid var(--line)}
+  .sheet.a{transform:rotate(-7deg) translateX(-26px);background:var(--surface-2)}
+  .sheet.b{transform:rotate(6deg) translateX(26px);background:var(--grey)}
+  .cardx{inset:-6px 14px;transform:rotate(-1deg);overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 16px 30px rgba(12,12,12,.12)}
+  .stack:hover .sheet.a{transform:rotate(-14deg) translateX(-58px)}
+  .stack:hover .sheet.b{transform:rotate(13deg) translateX(58px)}
+  .stack:hover .cardx{transform:rotate(1deg) translateY(-8px) scale(1.04)}
+  .badge{position:absolute;top:-18px;right:4px;z-index:3;min-width:30px;height:30px;padding:0 6px;border-radius:99px;background:var(--ink);color:#fff;font-family:var(--dot);font-weight:800;font-size:15px;display:grid;place-items:center}
+  .stack p{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+  .clip{position:absolute;top:-22px;left:30px;z-index:4;width:16px;height:44px;border:2px solid var(--muted);border-radius:10px;transform:rotate(-8deg)}
+  .tape{position:absolute;top:-10px;left:50%;width:64px;height:20px;background:rgba(12,12,12,.14);transform:translateX(-50%) rotate(-4deg);z-index:4}
+
+  /* ---------- плейсхолдеры под картинки из assets/ ---------- */
+  .slot{position:relative;display:block;overflow:hidden;border-radius:var(--r-s);background:var(--surface-2);border:1.5px dashed rgba(12,12,12,.3);color:var(--muted)}
+  .slot::before{content:"";position:absolute;left:50%;top:calc(50% - 22px);width:22px;height:18px;margin-left:-11px;border:1.5px solid currentColor;border-radius:4px;opacity:.6}
+  .slot::after{content:attr(data-src) ".*";position:absolute;left:8px;right:8px;top:calc(50% + 6px);text-align:center;font:400 10.5px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;word-break:break-all}
+  .slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .slot.has{border-color:transparent;background:none}
+  .slot.has::before,.slot.has::after{display:none}
+  .cardx .slot{width:100%;height:100%;border:0;border-radius:0}
+
+  /* ---------- UI KIT CANVAS ---------- */
+  .kit{padding:70px 0 90px;transition:background .5s,color .5s;overflow:hidden}
+  .kit[data-theme="dark"]{background-color:var(--ink);color:#fff;
+    background-image:radial-gradient(circle,rgba(255,255,255,.2) 1.1px,transparent 1.5px);background-size:var(--grid) var(--grid);background-attachment:fixed}
+  .stage{position:relative;width:100%;max-width:1200px;margin:0 auto;aspect-ratio:4/3;container-type:inline-size;--u:1cqw;--muted:#8a8780}
+  .fl{position:absolute;translate:var(--tx,0) var(--ty,0);transition:translate .35s ease-out}
+  .fl>.in{animation:bob 7s ease-in-out infinite;animation-delay:var(--d,0s)}
+  @keyframes bob{50%{transform:translateY(calc(-.7*var(--u)))}}
+  .k-title{position:absolute;left:0;right:0;top:46.5%;text-align:center;z-index:1;pointer-events:none}
+  .k-title h2{font-size:calc(6.3*var(--u));letter-spacing:-.055em;font-weight:600;line-height:1}
+  .k-title p{font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;font-size:max(9px,calc(.8*var(--u)));color:var(--muted);margin-top:calc(1.2*var(--u))}
+
+  .k-toggle{left:47.4%;top:3%;width:calc(5.2*var(--u));height:calc(2.6*var(--u));border-radius:99px;background:rgba(127,127,127,.16);display:flex;padding:calc(.25*var(--u));z-index:5}
+  .k-toggle button{flex:1;border:0;background:none;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:inherit;font-size:max(10px,calc(1.1*var(--u)))}
+  .kit[data-theme="dark"] .k-toggle .sun{background:var(--ink);color:#fff}
+  .kit[data-theme="dark"] .k-toggle .moon{background:#fff;color:var(--ink)}
+  .k-toggle>div{display:contents}
+
+  /* слоты под картинки: положение и пропорции задают переменные */
+  .ks{left:var(--l);top:var(--t);width:var(--w);aspect-ratio:var(--ar)}
+  .ks>.in{position:absolute;inset:0}
+  .ks .slot::after{font-size:9px}
+  .k1{--l:5%;--t:10%;--w:27%;--ar:3/2}
+  .k2{--l:37%;--t:9%;--w:26%;--ar:16/10}
+  .k3{--l:68%;--t:10%;--w:27%;--ar:3/2}
+  .k4{--l:3%;--t:40%;--w:16%;--ar:1}
+  .k5{--l:81%;--t:40%;--w:16%;--ar:1}
+  .k6{--l:5%;--t:64%;--w:24%;--ar:3/2}
+  .k7{--l:33%;--t:68%;--w:15%;--ar:1}
+  .k8{--l:52%;--t:68%;--w:15%;--ar:1}
+  .k9{--l:71%;--t:64%;--w:24%;--ar:3/2}
+  .kit[data-theme="dark"] .slot{background:#1b1b1b;border-color:rgba(255,255,255,.28);color:#8a8780}
+  .kit[data-theme="dark"] .slot.has{background:none;border-color:transparent}
+  .kit-note{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.45;margin-top:10px}
+
+  /* ---------- WORK ---------- */
+  .work{padding:110px 0 40px}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+  .proj{border-radius:var(--r);overflow:hidden;position:relative;min-height:380px;padding:26px;display:flex;flex-direction:column;justify-content:space-between;isolation:isolate;transition:transform .4s;border:1px solid var(--line)}
+  .proj:hover{transform:translateY(-6px)}
+  .proj .pimg{position:absolute;inset:14px;z-index:-1;background:none;border:1.5px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:calc(var(--r) - 12px);color:inherit}
+  .proj .pimg::before,.proj .pimg::after{opacity:.55}
+  .proj .pimg.has{inset:0;border:0;border-radius:0}
+  .proj:has(.pimg.has){color:#fff}
+  .proj:has(.pimg.has)::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,12,12,.4),transparent 40%,rgba(12,12,12,.55))}
+  .proj .pt{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase}
+  .proj h3{font-size:28px;letter-spacing:-.035em;font-weight:600}
+  .proj .chips{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:99px;border:1px solid currentColor}
+  .chip.o::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px}
+  .p1{grid-column:span 7;background:var(--ink);color:#fff}
+  .p2{grid-column:span 5;background:var(--surface);color:var(--ink)}
+  .p3{grid-column:span 5;background:var(--accent);color:var(--ink)}
+  .p4{grid-column:span 7;background:var(--grey);color:var(--ink)}
+  .p3 .chip.o::before{background:var(--ink)}
+
+  /* ---------- PRICING ---------- */
+  .pricing{padding:110px 0}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .plan{padding:30px;display:flex;flex-direction:column;gap:20px}
+  .plan.feat{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .plan .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.65}
+  .plan .pr{font-size:42px;letter-spacing:-.045em;font-weight:600}
+  .plan ul{list-style:none;display:grid;gap:11px;font-size:14px;flex:1}
+  .plan li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:10px;vertical-align:1px}
+  .plan a{text-align:center;padding:15px;border-radius:99px;font-weight:500;font-size:14px;background:var(--ink);color:#fff}
+  .plan.feat a{background:#fff;color:var(--ink)}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .tst{padding:20px 0 110px}
+  .tcols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .t{padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:30px;min-height:250px}
+  .t q{font-size:18px;line-height:1.4;letter-spacing:-.02em;quotes:none}
+  .who{display:flex;gap:12px;align-items:center;font-size:13px}
+  .who .slot{width:36px;height:36px;border-radius:50%;flex:none}
+  .who .slot::before,.who .slot::after{display:none}
+  .who span{display:block;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;margin-top:2px}
+
+  /* ---------- TEAM (диван) ---------- */
+  .team{padding:20px 0 120px}
+  .tstage{position:relative;width:100%;aspect-ratio:3/2;margin-top:150px;user-select:none;-webkit-user-select:none}
+  .tstage img{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;filter:drop-shadow(0 26px 24px rgba(12,12,12,.16))}
+  .tbg{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:var(--surface-2);border:1.5px dashed rgba(12,12,12,.3);border-radius:var(--r);color:var(--muted);font:400 11px/1.8 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+  .tstage.ok .tbg{display:none}
+  .tstage img{opacity:0}
+  .tstage.ok img{opacity:1}
+  .tstage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+  .thint{position:absolute;left:50%;top:-74px;transform:translateX(-50%);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:10px;white-space:nowrap;transition:opacity .3s;pointer-events:none}
+  .thint i{width:1px;height:26px;background-image:linear-gradient(var(--ink) 50%,transparent 50%);background-size:1px 6px;opacity:.5;animation:thdrop 1.2s steps(4) infinite}
+  @keyframes thdrop{to{background-position:0 6px}}
+  .thint .t-touch{display:none}
+  @media(hover:none){.thint .t-hover{display:none}.thint .t-touch{display:inline}}
+  .tstage.has-on .thint{opacity:0}
+
+  .hot{position:absolute;z-index:3;left:var(--l);top:var(--t);width:var(--w);height:var(--h);background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none;border-radius:6px}
+  .hot::before{content:"";position:absolute;inset:-8px;opacity:0;transition:opacity .25s;pointer-events:none;
+    background:
+      linear-gradient(var(--accent),var(--accent)) left top/18px 2px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) left top/2px 18px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) right top/18px 2px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) right top/2px 18px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) left bottom/18px 2px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) left bottom/2px 18px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) right bottom/18px 2px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) right bottom/2px 18px no-repeat}
+  .hot::after{content:attr(data-n);position:absolute;left:-8px;top:-30px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:99px;opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s;pointer-events:none}
+  .hot.on::before,.hot:focus-visible::before{opacity:1}
+  .hot.on::after,.hot:focus-visible::after{opacity:1;transform:none}
+  .pin{position:absolute;left:50%;top:var(--py,46%);width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--accent);border:2px solid var(--surface);box-shadow:0 0 0 0 rgba(80,200,120,.6);animation:pinpulse 2s infinite;transition:opacity .2s,transform .2s;pointer-events:none}
+  @keyframes pinpulse{70%{box-shadow:0 0 0 14px rgba(80,200,120,0)}100%{box-shadow:0 0 0 0 rgba(80,200,120,0)}}
+  .hot.on .pin{opacity:0;transform:scale(.4)}
+
+  .tcard{position:absolute;z-index:6;left:var(--cx);bottom:calc(100% - var(--hy) + 24px);width:300px;padding:20px 22px 22px;background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 50px -18px rgba(12,12,12,.3);
+    opacity:0;visibility:hidden;transform:translate(-50%,12px);pointer-events:none;transition:opacity .25s,transform .35s cubic-bezier(.2,.8,.2,1),visibility 0s .25s}
+  .tcard.on{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .25s,transform .35s cubic-bezier(.2,.8,.2,1)}
+  .tcard::after{content:"";position:absolute;left:50%;top:100%;height:24px;border-left:2px dotted var(--accent)}
+  .tc-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .tc-top b{font-family:var(--dot);font-weight:800;font-size:18px;letter-spacing:0;color:var(--accent-deep)}
+  .tcard h3{font-size:24px;letter-spacing:-.04em;font-weight:600;line-height:1.05;margin:14px 0 4px}
+  .tc-name{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .tcard p{font-size:13.5px;line-height:1.5;color:#3d3b37;margin:14px 0 16px}
+  .tc-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .tc-chips span{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--ink);border-radius:99px;padding:5px 10px}
+  .tc-chips span:first-child{background:var(--ink);color:#fff}
+
+  @media(max-width:720px){
+    .tstage{margin-top:70px;margin-bottom:290px}
+    .thint{top:-52px}
+    .tcard{left:0;right:0;width:auto;bottom:auto;top:100%;margin-top:34px;transform:translateY(10px)}
+    .tcard.on{transform:none}
+    .tcard::after{left:var(--cx);transform:translateX(-50%);top:-34px;height:34px}
+    .pin{width:12px;height:12px;margin:-6px 0 0 -6px}
+  }
+  @media(prefers-reduced-motion:reduce){.pin,.thint i{animation:none}}
+
+  /* ---------- ABOUT / FOOTER ---------- */
+  /* .about,footer{background-color:var(--ink);color:#fff;background-size:var(--grid) var(--grid);background-attachment:fixed} */
+  .about{padding:0px 0;border-radius:40px 40px 0 0}
+  .about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:70px}
+  .about .eyebrow{color:rgba(255,255,255,.6);margin-bottom:18px}
+  .about .h2{font-size:clamp(34px,4.8vw,62px)}
+  .about p{opacity:.72;line-height:1.65;font-size:15.5px;margin-bottom:18px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+  .stats div{border-top:1px solid rgba(255,255,255,.2);padding-top:14px;font-family:var(--dot);font-weight:800;font-size:44px;line-height:1}
+  .stats span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.6;font-weight:400;margin-top:10px}
+  footer{padding:20px 0 40px}
+  .big{font-size:clamp(44px,10vw,150px);font-weight:600;letter-spacing:-.06em;line-height:.9;padding:40px 0;border-top:1px solid rgba(255,255,255,.14);margin-top:40px}
+  .big a span{color:var(--accent);display:inline-block;transition:transform .3s}
+  .big a:hover span{transform:translateX(.12em)}
+  .fr{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.55;flex-wrap:wrap;gap:12px}
+
+  /* header over dark sections */
+  header.dark.scrolled{background:rgba(12,12,12,.74)}
+  header.dark .logo{color:#fff}
+  header.dark .links{background:rgba(12,12,12,.55);border-color:rgba(255,255,255,.2);color:#fff}
+  header.dark .links a:hover{background:#fff;color:var(--ink)}
+  header.dark .right a{color:#fff;border-color:#fff}
+  header.dark .right a:hover{background:#fff;color:var(--ink)}
+  header.dark .burger{border-color:#fff}
+  header.dark .burger span{background:#fff}
+
+  /* ---------- mobile menu ---------- */
+  .burger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:40px;height:40px;border-radius:50%;border:1px solid var(--ink);background:transparent;cursor:pointer;padding:0}
+  .burger span{width:15px;height:1.5px;background:var(--ink);transition:transform .3s,background .3s}
+  body.menu .burger span:first-child{transform:translateY(3.25px) rotate(45deg)}
+  body.menu .burger span:last-child{transform:translateY(-3.25px) rotate(-45deg)}
+  .mnav{position:fixed;inset:0;z-index:40;background-color:var(--ink);color:#fff;background-image:radial-gradient(circle,rgba(255,255,255,.2) 1.1px,transparent 1.5px);background-size:var(--grid) var(--grid);
+    padding:110px 28px 36px;display:flex;flex-direction:column;justify-content:space-between;opacity:0;pointer-events:none;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+  body.menu .mnav{opacity:1;pointer-events:auto;visibility:visible;transition:opacity .35s}
+  .mnav .big-l{font-size:44px;letter-spacing:-.045em;font-weight:600;display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+  .mnav small{font-family:var(--dot);font-weight:800;font-size:18px;color:var(--accent)}
+  .mn-foot{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.55}
+  body.menu header{background:transparent;backdrop-filter:none}
+  body.menu .logo{color:#fff}
+  body.menu .burger{border-color:#fff}
+  body.menu .burger span{background:#fff}
+  body.menu,body.casing{overflow:hidden}
+
+  /* ---------- CONTACT ---------- */
+  .contact,footer {background-color:var(--ink);color:#fff;background-image:radial-gradient(circle,rgba(255,255,255,.18) 1.1px,transparent 1.5px);background-size:var(--grid) var(--grid);background-attachment:fixed}
+  .contact{padding:50px 0 110px}
+  .contact .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:start}
+  .contact .eyebrow{color:rgba(255,255,255,.6);margin-bottom:18px}
+  .contact .lead{opacity:.72;line-height:1.6;max-width:380px;margin-top:24px;font-size:15.5px}
+  .cl{margin-top:40px;display:grid;font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+  .cl a{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.14);transition:color .2s}
+  .cl a span:first-child{opacity:.55}
+  .cl a:hover{color:var(--accent)}
+  .form{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:32px;backdrop-filter:blur(6px)}
+  .fields{display:grid;gap:24px}
+  .fld label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;opacity:.6;margin-bottom:8px}
+  .fld input:not([type=checkbox]),.fld textarea,.fld select{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.25);color:#fff;font:400 16px var(--sans);padding:10px 0;outline:none;border-radius:0;transition:border-color .2s;resize:vertical}
+  .fld select{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 12px) 55%,calc(100% - 7px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+  .fld select option{color:#0c0c0c}
+  .fld input::placeholder,.fld textarea::placeholder{color:rgba(255,255,255,.35)}
+  .fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--accent)}
+  .fld.err input,.fld.err textarea{border-color:#7ad99b}
+  .fld.err>label{color:#9be6b6;opacity:1}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .fld .opt{display:inline-block;position:relative;margin:0;opacity:1;cursor:pointer;text-transform:none;letter-spacing:0}
+  .opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+  .opt span{display:inline-block;border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:8px 14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;transition:.2s}
+  .opt:hover span{border-color:#fff}
+  .opt input:checked+span{background:#fff;color:var(--ink);border-color:#fff}
+  .opt input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+  .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+  .frow{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .submit{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;background:#fff;color:var(--ink);padding:16px 28px;border-radius:99px;font:500 14px var(--sans);transition:transform .25s,opacity .2s}
+  .submit:hover{transform:translateY(-2px)}
+  .submit:disabled{opacity:.5;cursor:wait;transform:none}
+  .submit i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .ferr{font-family:var(--mono);font-size:11.5px;color:#9be6b6;flex:1;min-width:180px;line-height:1.4}
+  .done{display:none;text-align:center;padding:40px 10px}
+  .form.sent .fields{display:none}
+  .form.sent .done{display:grid;gap:16px;justify-items:center}
+  .dd{width:64px;height:64px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;font-size:28px}
+  .done h3{font-size:36px;letter-spacing:-.04em;font-weight:600}
+  .done p{opacity:.72;max-width:320px;line-height:1.5;font-size:15px}
+  .again{background:none;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:99px;padding:10px 18px;font:500 12px var(--mono);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;margin-top:6px}
+  .again:hover{border-color:#fff}
+  footer{padding:10px 0 34px}
+  .wordmark{padding-top:36px;border-top:1px solid rgba(255,255,255,.14);margin-bottom:34px}
+
+  /* ---------- CASE OVERLAY ---------- */
+  .case{position:fixed;inset:0;z-index:80;overflow-y:auto;overscroll-behavior:contain;background-color:var(--bg);
+    background-image:radial-gradient(circle,rgba(12,12,12,.24) 1.1px,transparent 1.5px);background-size:var(--grid) var(--grid);
+    transform:translateY(100%);visibility:hidden;transition:transform .6s cubic-bezier(.2,.8,.2,1),visibility 0s .6s}
+  .case.open{transform:none;visibility:visible;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .case-bar{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:rgba(235,233,227,.8);backdrop-filter:blur(12px)}
+  .case-close{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:99px;padding:9px 16px;font:500 11.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:.2s}
+  .case-close:hover{background:var(--ink);color:#fff}
+  .case-in{max-width:1240px;margin:0 auto;padding:50px 28px 100px}
+  .c-title{font-size:clamp(48px,9vw,128px);letter-spacing:-.055em;line-height:.92;font-weight:600;margin-top:18px}
+  .c-kind{margin-top:18px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .cmeta{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-top:1px solid var(--line);margin-top:40px;padding-top:20px}
+  .cmeta div{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .cmeta b{display:block;margin-top:8px;color:var(--ink);font:500 15px/1.35 var(--sans);letter-spacing:0;text-transform:none}
+  .chero{margin-top:40px;aspect-ratio:16/8;border-radius:var(--r)}
+  .ctext{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}
+  .ctext .card{padding:26px}
+  .ctext h4{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .ctext h4::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .ctext p{font-size:15px;line-height:1.55}
+  .cstats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:70px}
+  .cstats div{border-top:1px solid var(--ink);padding-top:16px;font-family:var(--dot);font-weight:800;font-size:clamp(40px,6vw,76px);line-height:1}
+  .cstats span{display:block;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+  .cgal{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;margin-top:70px}
+  .tile{grid-column:span 2;min-height:200px;border-radius:var(--r)}
+  .tile.w{grid-column:span 4;aspect-ratio:16/10}
+  .cnext{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;margin-top:70px;padding:34px;text-align:left;cursor:pointer;font-family:inherit;color:inherit;transition:transform .3s,background .3s}
+  .cnext:hover{transform:translateY(-4px);background:var(--surface-2)}
+  .cnext>span:first-child{align-self:flex-start}
+  .cn-name{font-size:clamp(30px,5vw,64px);letter-spacing:-.05em;font-weight:600;flex:1;margin-left:24px}
+  .cn-arrow{font-size:34px;color:var(--accent-deep)}
+  .ccta{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:40px}
+  .ccta .btn{border:0;cursor:pointer;font-family:inherit}
+  .cnote{font:400 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .kn-touch{display:none}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
+  .rv.in{opacity:1;transform:none}
+
+  @media(max-width:960px){
+    .links{display:none}.nav{grid-template-columns:1fr auto}
+    .burger{display:flex}
+    .stacks{grid-template-columns:repeat(2,1fr);gap:60px 10px}
+    .about .wrap,.contact .wrap{grid-template-columns:1fr;gap:40px}
+    .p1,.p2,.p3,.p4{grid-column:span 12}
+    .plans,.tcols,.ctext{grid-template-columns:1fr}
+    .cmeta{grid-template-columns:repeat(2,1fr)}
+    .chero{aspect-ratio:4/3}
+  }
+  /* UI-kit на телефоне: стейдж выше, слоты перераскладываются */
+  @media(max-width:720px){
+    .kit{padding:40px 0 60px}
+    .stage{aspect-ratio:5/8;--u:1.9cqw}
+    .k-toggle{left:45%;top:2.2%}
+    .k-title{top:37.5%}
+    .k1{--l:5%;--t:6%;--w:52%;--ar:4/3}
+    .k2{--l:60%;--t:8%;--w:35%;--ar:1}
+    .k3,.k8{display:none}
+    .k4{--l:5%;--t:51%;--w:26%;--ar:1}
+    .k5{--l:37%;--t:51%;--w:26%;--ar:1}
+    .k7{--l:69%;--t:51%;--w:26%;--ar:1}
+    .k6{--l:5%;--t:71%;--w:42%;--ar:4/3}
+    .k9{--l:53%;--t:71%;--w:42%;--ar:4/3}
+  }
+  @media(max-width:520px){
+    .wrap{padding:0 18px}
+    .hero{padding:120px 0 70px}
+    h1{font-size:38px}
+    .pile{width:150px;height:120px}
+    .stacks{margin-top:70px;gap:56px 8px}
+    .right a{display:none}
+    .proj{min-height:320px;padding:22px}
+    .proj h3{font-size:24px}
+    .plan,.t{padding:24px}
+    .stats{gap:10px}.stats div{font-size:32px}
+    .contact{padding-bottom:80px}
+    .form{padding:22px}
+    .mnav{padding:100px 18px 30px}
+    .mnav .big-l{font-size:38px}
+    .case-bar{padding:14px 18px}
+    .case-in{padding:34px 18px 80px}
+    .cmeta{gap:16px}
+    .cstats{grid-template-columns:1fr;gap:26px}
+    .cgal{grid-template-columns:1fr;gap:14px}
+    .tile,.tile.w{grid-column:auto;aspect-ratio:4/3}
+    .cnext{padding:22px;flex-wrap:wrap}
+    .cn-name{margin-left:0}
+  }
+  @media(hover:none){.dotfx{display:none}.kn-hover{display:none}.kn-touch{display:inline}}
+
+  /* =========================================================
+     DOTS: сетка точек приглушена на всех блоках,
+     кроме первого (hero) и последнего (contact + footer)
+     ========================================================= */
+  :root{--veil:rgba(235,233,227,.76)}
+  .kit,.work,.pricing,.tst,.team{background-color:var(--veil)}
+  .kit[data-theme="dark"]{background-image:radial-gradient(circle,rgba(255,255,255,.06) 1.1px,transparent 1.5px)}
+  .about{background-image:radial-gradient(circle,rgba(255,255,255,.055) 1.1px,transparent 1.5px)}
+
+  /* =========================================================
+     LOADER: логотип из точек, процент, тонкая полоса
+     ========================================================= */
+  .loader{display:none}
+  html.ld,html.ld body{overflow:hidden}
+  html.ld .loader{display:flex;align-items:center;justify-content:center;position:fixed;inset:0;z-index:200;cursor:pointer;color:var(--bg);background:var(--ink);
+    transition:transform .85s cubic-bezier(.76,0,.24,1)}
+  .loader.out{transform:translateY(-101%);pointer-events:none}
+  .ld-mark{width:clamp(200px,32vw,420px);aspect-ratio:683/120;overflow:visible;display:block}
+  .ld-mark circle{fill:var(--accent);transform-box:fill-box;transform-origin:center;opacity:0;animation:ldIn .5s ease calc(var(--i,0)*45ms) forwards}
+  @keyframes ldIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+  .ld-count{position:absolute;left:clamp(20px,4vw,56px);bottom:clamp(20px,4.5vh,44px);font-family:var(--mono);font-size:12px;letter-spacing:.08em;opacity:.6;font-variant-numeric:tabular-nums}
+  .ld-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left}
+</style>
+</head>
+<body>
+<!-- LOADER -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="gl" viewBox="0 0 683 120" fill="currentColor"><circle cx="58.6333" cy="60.3276" r="18.3609"/><circle cx="150.438" cy="19.0151" r="18.3609"/><circle cx="241.84" cy="19.0151" r="18.3609"/><circle cx="241.84" cy="60.3276" r="18.3609"/><circle cx="241.84" cy="101.638" r="18.3609"/><circle cx="285.544" cy="60.3276" r="18.3609"/><circle cx="376.145" cy="19.0151" r="18.3609"/><circle cx="58.6333" cy="19.0151" r="18.3609"/><circle cx="18.3609" cy="60.3276" r="18.3609"/><circle cx="18.3609" cy="19.0151" r="18.3609"/><circle cx="463.817" cy="19.0151" r="18.3609"/><circle cx="463.817" cy="60.3276" r="18.3609"/><circle cx="503.884" cy="60.3276" r="18.3609"/><circle cx="626.399" cy="25.0819" r="18.3609" transform="rotate(-30 626.399 25.0819)"/><circle cx="657.189" cy="56.8416" r="18.3609" transform="rotate(-30 657.189 56.8416)"/><circle cx="503.884" cy="19.0151" r="18.3609"/></symbol></svg>
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="ld-mark" id="ldMark" viewBox="0 0 683 120"></svg>
+  <div class="ld-count"><span id="ldNum">0</span>%</div>
+  <div class="ld-bar" id="ldBar"></div>
+</div>
+<script>
+(()=>{
+  const html=document.documentElement,L=document.getElementById('loader');
+  if(!L||!html.classList.contains('ld'))return;
+  const mark=document.getElementById('ldMark'),num=document.getElementById('ldNum'),bar=document.getElementById('ldBar');
+  // логотип берём из общего символа #gl, точки появляются по очереди
+  mark.innerHTML=document.getElementById('gl').innerHTML;
+  mark.querySelectorAll('circle').forEach((c,i)=>c.style.setProperty('--i',i));
+  let done=false,loaded=document.readyState==='complete';
+  if(!loaded)addEventListener('load',()=>loaded=true,{once:true});
+  function finish(){
+    if(done)return;done=true;
+    L.classList.add('out');
+    setTimeout(()=>dispatchEvent(new Event('loader:done')),300);
+    setTimeout(()=>{html.classList.remove('ld');L.remove()},950);
+  }
+  L.addEventListener('click',finish);
+  setTimeout(finish,6000); // страховка
+  const D=1600,t0=performance.now();
+  (function tick(now){
+    if(done)return;
+    const t=Math.min(1,(now-t0)/D);
+    let p=1-Math.pow(1-t,2);if(!loaded)p=Math.min(p,.97);
+    num.textContent=Math.round(p*100);
+    bar.style.transform='scaleX('+p+')';
+    if(p>=1){setTimeout(finish,250);return}
+    requestAnimationFrame(tick);
+  })(t0);
+})();
+</script>
+
+<div class="dots"></div><div class="dotfx" id="dotfx"></div>
+
+<header id="hd">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Garage Agency"><svg class="lg" viewBox="0 0 683 120" role="img" aria-label="Garage Agency"><use href="#gl"/></svg></a>
+    <nav class="links">
+      <a href="#work">Портфолио</a>
+      <a href="#pricing">Цены</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#team">Команда</a>
+      <a href="#about">О нас</a>
+    </nav>
+    <div class="right"><a href="#contact">Написать</a><button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span></button></div>
+  </div>
+</header>
+
+<nav class="mnav" id="mnav" aria-label="Мобильное меню">
+  <div>
+    <a class="big-l" href="#work">Портфолио <small>01</small></a>
+    <a class="big-l" href="#pricing">Цены <small>02</small></a>
+    <a class="big-l" href="#reviews">Отзывы <small>03</small></a>
+    <a class="big-l" href="#team">Команда <small>04</small></a>
+    <a class="big-l" href="#about">О нас <small>05</small></a>
+    <a class="big-l" href="#contact">Контакты <small>06</small></a>
+  </div>
+  <div class="mn-foot"><span>hello@garage.agency</span><span>Telegram · VK</span></div>
+</nav>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="top">
+      <span class="eyebrow rv">Открыты для новых проектов</span>
+      <h1 class="rv">Дизайн с характером — от сайтов до кофейных машин</h1>
+      <p class="sub rv">Дизайн, веб-разработка, брендинг и продуктовый дизайн. Делаем <b>сайты, бренды и оборудование</b> — например, кофейное — из деталей, у которых есть смысл.</p>
+      <div class="tags rv"><span class="pill">Дизайн</span><span class="pill">Веб-разработка</span><span class="pill">Брендинг</span><span class="pill">Продуктовый дизайн</span><span class="pill">Коммуникации</span></div>
+      <a href="#contact" class="btn rv">Обсудить проект <i></i></a>
+    </div>
+
+    <div class="stacks">
+      <div class="stack rv"><div class="pile"><span class="badge">6</span><span class="clip"></span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-1"></div></div></div><p>Брендинг</p></div>
+      <div class="stack rv"><div class="pile"><span class="badge">4</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-2"></div></div></div><p>Сайты</p></div>
+      <div class="stack rv"><div class="pile"><span class="badge">12</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-3"></div></div></div><p>Продукты</p></div>
+      <div class="stack rv"><div class="pile"><span class="badge">3</span><span class="tape"></span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-4"></div></div></div><p>Типографика</p></div>
+      <div class="stack rv"><div class="pile"><span class="badge">12</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-5"></div></div></div><p>Интерфейсы</p></div>
+      <div class="stack rv"><div class="pile"><span class="badge">9</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-6"></div></div></div><p>Коммуникации</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- UI KIT CANVAS -->
+<section class="kit" id="kit" data-theme="dark">
+  <div class="wrap">
+    <div class="stage" id="stage">
+
+      <div class="fl k-toggle" data-depth="0.2"><div class="in" style="animation:none">
+        <button class="sun" data-t="light" aria-label="Светлая тема">☀</button>
+        <button class="moon" data-t="dark" aria-label="Тёмная тема">☾</button>
+      </div></div>
+
+      <div class="k-title"><h2>Garage UI kit</h2><p>Продукты, которые чувствуют контекст</p></div>
+
+      <div class="fl ks k1" data-depth="0.5" style="--d:-1s"><div class="in slot" data-src="assets/kit-01"></div></div>
+      <div class="fl ks k2" data-depth="0.8" style="--d:-2s"><div class="in slot" data-src="assets/kit-02"></div></div>
+      <div class="fl ks k3" data-depth="0.6" style="--d:-3s"><div class="in slot" data-src="assets/kit-03"></div></div>
+      <div class="fl ks k4" data-depth="1.0" style="--d:-1.5s"><div class="in slot" data-src="assets/kit-04"></div></div>
+      <div class="fl ks k5" data-depth="1.1" style="--d:-4s"><div class="in slot" data-src="assets/kit-05"></div></div>
+      <div class="fl ks k6" data-depth="0.7" style="--d:-2.5s"><div class="in slot" data-src="assets/kit-06"></div></div>
+      <div class="fl ks k7" data-depth="1.2" style="--d:-3.5s"><div class="in slot" data-src="assets/kit-07"></div></div>
+      <div class="fl ks k8" data-depth="0.9" style="--d:-.5s"><div class="in slot" data-src="assets/kit-08"></div></div>
+      <div class="fl ks k9" data-depth="0.4" style="--d:-4.5s"><div class="in slot" data-src="assets/kit-09"></div></div>
+    </div>
+    <div class="kit-note"><span class="kn-hover">наведите курсор · </span>переключите тему</div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="sh rv"><div><span class="eyebrow">01 / Работы</span><h2 class="h2">Избранные<br>работы</h2></div><p>Проекты, в которых форма и функция работают вместе. Нажмите на карточку, чтобы открыть кейс. Названия и описания — заглушки.</p></div>
+    <div class="grid">
+      <a class="proj p1 rv" href="#case-brew-station" data-case="brew-station"><div class="slot pimg" data-src="assets/work-1"></div><div class="pt"><span>Продуктовый дизайн · кофейное оборудование</span><span>2026</span></div><div><h3>Brew Station</h3><div class="chips"><span class="chip">Продукт</span><span class="chip">Интерфейс</span><span class="chip o">Коммуникации</span></div></div></a>
+      <a class="proj p2 rv" href="#case-roast-notes" data-case="roast-notes"><div class="slot pimg" data-src="assets/work-2"></div><div class="pt"><span>Брендинг · упаковка</span><span>2026</span></div><div><h3>Roast Notes</h3><div class="chips"><span class="chip">Брендинг</span><span class="chip o">Коммуникации</span></div></div></a>
+      <a class="proj p3 rv" href="#case-night-shift" data-case="night-shift"><div class="slot pimg" data-src="assets/work-3"></div><div class="pt"><span>Бренд и сайт</span><span>2025</span></div><div><h3>Night Shift</h3><div class="chips"><span class="chip">Брендинг</span><span class="chip o">Сайт</span></div></div></a>
+      <a class="proj p4 rv" href="#case-research-atlas" data-case="research-atlas"><div class="slot pimg" data-src="assets/work-4"></div><div class="pt"><span>Веб-разработка · веб-приложение</span><span>2025</span></div><div><h3>Research Atlas</h3><div class="chips"><span class="chip">Веб</span><span class="chip">UI-система</span><span class="chip o">Разработка</span></div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="sh rv"><div><span class="eyebrow">02 / Цены</span><h2 class="h2">Форматы<br>работы</h2></div><p>Ориентировочные цены. Точную стоимость считаем после брифа.</p></div>
+    <div class="plans">
+      <div class="plan card rv"><span class="n">01 · Старт</span><div class="pr">от 80 000 ₽</div><ul><li>Лендинг или визитка</li><li>Дизайн + вёрстка</li><li>Адаптив под мобильные</li><li>Срок 2–3 недели</li></ul><a href="#contact">Выбрать</a></div>
+      <div class="plan card feat rv"><span class="n">02 · Студия</span><div class="pr">от 250 000 ₽</div><ul><li>Многостраничный сайт</li><li>Айдентика и UI-кит</li><li>Анимации и motion</li><li>Срок 5–8 недель</li></ul><a href="#contact">Выбрать</a></div>
+      <div class="plan card rv"><span class="n">03 · Продукт</span><div class="pr">от 600 000 ₽</div><ul><li>Веб-приложение</li><li>Исследование и прототип</li><li>Дизайн-система</li><li>Поддержка после запуска</li></ul><a href="#contact">Выбрать</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="tst" id="reviews">
+  <div class="wrap">
+    <div class="sh rv"><div><span class="eyebrow">03 / Отзывы</span><h2 class="h2">Что говорят<br>клиенты</h2></div><p>Отзывы-заглушки — позже заменим на реальные.</p></div>
+    <div class="tcols">
+      <div class="t card rv"><q>Команда быстро поняла задачу и предложила решение лучше, чем мы ожидали.</q><div class="who"><i class="slot" data-src="assets/avatar-1"></i><div>Имя Фамилия<span>Основатель, Компания</span></div></div></div>
+      <div class="t card rv"><q>Аккуратная работа с деталями. Сайт стал частью бренда, а не просто витриной.</q><div class="who"><i class="slot" data-src="assets/avatar-2"></i><div>Имя Фамилия<span>Маркетинг, Компания</span></div></div></div>
+      <div class="t card rv"><q>Приятно, когда дизайнеры понимают разработку и сразу думают о том, как это будет жить.</q><div class="who"><i class="slot" data-src="assets/avatar-3"></i><div>Имя Фамилия<span>CPO, Компания</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="team">
+<div class="wrap">
+<section class="about" id="about">
+  <div class="wrap">
+    <div><h2 class="h2 rv">Небольшая команда. Большое внимание к деталям.</h2></div>
+    <div class="rv">
+      <p>Garage Agency — студия дизайна и веб-разработки: сайты, брендинг, продуктовый дизайн и коммуникации, в том числе для кофейного оборудования. Дизайнеры и разработчики работают за одним столом, быстро собирают прототип и дорабатывают его вместе с вами.</p>
+      <p>Никаких шаблонов и случайных решений: у каждого элемента на экране есть причина.</p>
+      <div class="stats"><div>40+<span>проектов</span></div><div>6<span>лет на рынке</span></div><div>100<span>% вовлечённость</span></div></div>
+    </div>
+  </div>
+</section>    
+<div class="rv">
+      <div class="tstage" id="tstage">
+        <div class="thint"><span><span class="t-hover">Наведите</span><span class="t-touch">Нажмите</span> на любого гаражевца</span><i></i></div>
+        <div class="tbg"><span>assets/sofa.png<br>1536 × 1024</span></div>
+        <img id="tsofa" src="assets/sofa.png" alt="Команда Garage Agency на диване" width="1536" height="1024" decoding="async">
+        <canvas id="tpx" aria-hidden="true"></canvas>
+        <button type="button" class="hot" data-i="0" data-n="01" style="--l:9.0%;--t:13.7%;--w:27.0%;--h:73.7%;--py:37%" aria-expanded="false" aria-controls="tc0" aria-label="Дизайнер интерфейсов — подробнее"><span class="pin"></span></button><button type="button" class="hot" data-i="1" data-n="02" style="--l:36.4%;--t:12.6%;--w:25.4%;--h:78.0%;--py:37%" aria-expanded="false" aria-controls="tc1" aria-label="Арт-директор — подробнее"><span class="pin"></span></button><button type="button" class="hot" data-i="2" data-n="03" style="--l:61.8%;--t:15.6%;--w:34.0%;--h:74.7%;--py:36%" aria-expanded="false" aria-controls="tc2" aria-label="Разработчик — подробнее"><span class="pin"></span></button>
+        <article class="tcard" id="tc0" data-i="0" style="--cx:26.5%;--hy:13.0%"><div class="tc-top"><span>Дизайн</span><b>01</b></div><h3>Дизайнер интерфейсов</h3><div class="tc-name">Имя Фамилия</div><p>Рисует интерфейсы и дизайн-системы, собирает прототипы и доводит каждый экран до мелочей.</p><div class="tc-chips"><span>Дизайн</span><span>Figma</span><span>UI-кит</span><span>Прототипы</span></div></article><article class="tcard" id="tc1" data-i="1" style="--cx:48.5%;--hy:12.6%"><div class="tc-top"><span>Руководство</span><b>02</b></div><h3>Арт-директор</h3><div class="tc-name">Имя Фамилия</div><p>Отвечает за общее направление: идея, бренд, общение с клиентом и финальное «да» на результат.</p><div class="tc-chips"><span>Руководство</span><span>Концепция</span><span>Бренд</span><span>Клиенты</span></div></article><article class="tcard" id="tc2" data-i="2" style="--cx:78.0%;--hy:15.4%"><div class="tc-top"><span>Разработка</span><b>03</b></div><h3>Разработчик</h3><div class="tc-name">Имя Фамилия</div><p>Верстает и программирует, от лендингов до веб-приложений, и следит, чтобы дизайн жил в браузере без потерь.</p><div class="tc-chips"><span>Разработка</span><span>HTML / CSS</span><span>JavaScript</span><span>Backend</span></div></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow rv">06 / Контакты</span>
+      <h2 class="h2 rv">Расскажите<br>о проекте</h2>
+      <p class="lead rv">Опишите задачу в двух словах — вернёмся с вопросами и примерным планом в течение рабочего дня.</p>
+      <div class="cl rv">
+        <a href="mailto:hello@garage.agency"><span>Почта</span><span>hello@garage.agency</span></a>
+        <a href="#contact"><span>Telegram</span><span>@garage_agency</span></a>
+        <a href="#contact"><span>VK</span><span>vk.com/garage_agency</span></a>
+      </div>
+    </div>
+
+    <form class="form rv" id="form" novalidate>
+      <div class="fields">
+        <div class="fld"><label for="f-name">Имя</label><input id="f-name" autocomplete="name" placeholder="Как к вам обращаться"></div>
+        <div class="fld"><label for="f-contact">Почта, Telegram или телефон</label><input id="f-contact" autocomplete="email" placeholder="name@mail.ru или @username"></div>
+        <div class="fld"><label>Что нужно</label>
+          <div class="opts" id="f-services">
+            <label class="opt"><input type="checkbox" value="Сайт"><span>Сайт</span></label>
+            <label class="opt"><input type="checkbox" value="Брендинг"><span>Брендинг</span></label>
+            <label class="opt"><input type="checkbox" value="Продуктовый дизайн"><span>Продуктовый дизайн</span></label>
+            <label class="opt"><input type="checkbox" value="Коммуникации"><span>Коммуникации</span></label>
+            <label class="opt"><input type="checkbox" value="Другое"><span>Другое</span></label>
+          </div>
+        </div>
+        <div class="fld"><label for="f-budget">Бюджет</label>
+          <select id="f-budget">
+            <option value="Пока не знаю">Пока не знаю</option>
+            <option>до 100 000 ₽</option>
+            <option>100 000 – 300 000 ₽</option>
+            <option>300 000 – 600 000 ₽</option>
+            <option>от 600 000 ₽</option>
+          </select>
+        </div>
+        <div class="fld"><label for="f-msg">О проекте</label><textarea id="f-msg" rows="4" placeholder="Что делаем, для кого и к какому сроку"></textarea></div>
+        <input class="hp" id="f-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="frow"><button class="submit" id="submit" type="submit">Отправить <i></i></button><span class="ferr" id="ferr" role="alert"></span></div>
+      </div>
+      <div class="done" id="done">
+        <div class="dd">✓</div>
+        <h3>Спасибо!</h3>
+        <p id="donep">Заявка отправлена. Мы свяжемся с вами в течение рабочего дня.</p>
+        <button type="button" class="again" id="again">Отправить ещё одну</button>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="wordmark"><svg class="lg" viewBox="0 0 683 120" role="img" aria-label="Garage Agency"><use href="#gl"/></svg></div>
+    <div class="fr"><span>© 2026 Garage Agency</span><span>hello@garage.agency</span><span>Telegram · VK</span></div>
+  </div>
+</footer>
+
+<!-- CASE OVERLAY -->
+<div class="case" id="case" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Кейс проекта">
+  <div class="case-bar">
+    <span class="logo"><svg class="lg" viewBox="0 0 683 120" role="img" aria-label="Garage Agency"><use href="#gl"/></svg></span>
+    <button class="case-close" id="case-close" type="button">Закрыть <span>✕</span></button>
+  </div>
+  <div class="case-in" id="case-in"></div>
+</div>
+
+<script>
+  // header state
+  const hd=document.getElementById('hd');
+  addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>20),{passive:true});
+
+  // reveal
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  const startReveal=()=>document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%6)*60+'ms';io.observe(el)});
+  if(document.documentElement.classList.contains('ld')){addEventListener('loader:done',startReveal,{once:true});setTimeout(startReveal,9000)}else startReveal();
+
+  // accent dots follow the cursor
+  const root=document.documentElement;
+  addEventListener('pointermove',e=>{root.style.setProperty('--mx',e.clientX+'px');root.style.setProperty('--my',e.clientY+'px')},{passive:true});
+
+  // ---------- картинки: подставляются из assets/, если файл существует ----------
+  // data-src="assets/name" → пробуем name.webp, name.jpg, name.png, name.svg
+  function loadSlots(scope){
+    const EXT=['webp','jpg','png','svg'];
+    (scope||document).querySelectorAll('.slot[data-src]:not(.has):not([data-try])').forEach(sl=>{
+      sl.dataset.try='1';
+      const base=sl.dataset.src;let i=0;
+      (function next(){
+        if(i>=EXT.length)return;
+        const im=new Image();
+        im.alt='';
+        im.onload=()=>{sl.appendChild(im);sl.classList.add('has')};
+        im.onerror=next;
+        im.src=base+'.'+EXT[i++];
+      })();
+    });
+  }
+  loadSlots();
+
+  // ---------- UI kit canvas ----------
+  const kit=document.getElementById('kit'),stage=document.getElementById('stage');
+  const fls=[...stage.querySelectorAll('.fl[data-depth]')];
+  kit.addEventListener('mousemove',e=>{
+    const r=kit.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    fls.forEach(el=>{const d=parseFloat(el.dataset.depth);el.style.setProperty('--tx',(x*-22*d).toFixed(1)+'px');el.style.setProperty('--ty',(y*-22*d).toFixed(1)+'px')});
+  });
+  kit.addEventListener('mouseleave',()=>fls.forEach(el=>{el.style.setProperty('--tx','0px');el.style.setProperty('--ty','0px')}));
+  stage.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>kit.dataset.theme=b.dataset.t);
+
+  // ---------- mobile menu ----------
+  const burger=document.getElementById('burger');
+  burger.onclick=()=>{const o=document.body.classList.toggle('menu');burger.setAttribute('aria-expanded',o)};
+  document.querySelectorAll('#mnav a').forEach(a=>a.addEventListener('click',()=>{document.body.classList.remove('menu');burger.setAttribute('aria-expanded','false')}));
+  addEventListener('resize',()=>{if(innerWidth>960)document.body.classList.remove('menu')});
+
+  // ---------- project cases ----------
+  const CASES=[
+    {slug:'brew-station',theme:'ink',name:'Brew Station',kind:'Продуктовый дизайн · кофейное оборудование',year:'2026',client:'Производитель кофемашин',role:'Дизайн продукта, интерфейс, коммуникации',term:'5 месяцев',
+     task:'Профессиональной кофемашине нужен был понятный интерфейс для бариста и узнаваемый облик, который одинаково работает на корпусе, на экране и в материалах для дилеров.',
+     solution:'Собрали единую систему: форма и органы управления, экран с минимумом действий, графика на корпусе и набор коммуникаций для запуска линейки.',
+     result:'Новый бариста осваивает машину быстрее, а вся линейка получила общий язык в продукте, на сайте и в упаковке.',
+     stats:[['−30%','время обучения'],['3','модели линейки'],['1','общая система']]},
+    {slug:'roast-notes',theme:'light',name:'Roast Notes',kind:'Брендинг · упаковка и коммуникации',year:'2026',client:'Кофейная обжарка',role:'Айдентика, упаковка, коммуникации',term:'3 месяца',
+     task:'Небольшой обжарке нужно было выделиться на полке среди десятков похожих пачек и при этом честно рассказывать о каждом сорте.',
+     solution:'Придумали систему этикеток, где обжарка и вкус читаются за секунду, и единый тон коммуникации — в упаковке, соцсетях и на сайте.',
+     result:'Бренд стал узнаваемым в рознице, а команда сама собирает новые этикетки по готовой системе.',
+     stats:[['12','сортов в системе'],['2×','рост повторных заказов'],['4','канала коммуникации']]},
+    {slug:'night-shift',theme:'accent',name:'Night Shift',kind:'Брендинг · сайт',year:'2025',client:'Ночное кафе',role:'Бренд, дизайн и разработка сайта',term:'2 месяца',
+     task:'Нужен бренд для места, которое оживает после заката, и сайт, который работает в основном с телефона.',
+     solution:'Контрастная палитра, ночной интерфейс и быстрый сайт с меню, картой и бронированием в два касания.',
+     result:'Гости находят нужное за секунды, а сайт стал основным каналом бронирования.',
+     stats:[['2','касания до брони'],['0.9с','загрузка страницы'],['+45%','онлайн-брони']]},
+    {slug:'research-atlas',theme:'grey',name:'Research Atlas',kind:'Веб-разработка · веб-приложение',year:'2025',client:'Исследовательская лаборатория',role:'UX, UI-система, разработка',term:'6 месяцев',
+     task:'Исследователям нужен был единый каталог лабораторий и проектов, в котором легко искать, сравнивать и делиться находками.',
+     solution:'Собрали веб-приложение с быстрым поиском, карточками с метками и дизайн-системой, которую команда продолжает развивать сама.',
+     result:'Каталог стал рабочим инструментом: поиск занимает секунды, а новые разделы собираются из готовых компонентов.',
+     stats:[['300+','записей в каталоге'],['<1с','поиск'],['40','компонентов']]}
+  ];
+  const caseEl=document.getElementById('case'),caseIn=document.getElementById('case-in'),caseClose=document.getElementById('case-close');
+  const TILES=['w','','','w'];
+  function caseHTML(i){
+    const c=CASES[i],n=CASES[(i+1)%CASES.length];
+    const tiles=TILES.map((t,k)=>`<div class="tile slot ${t}" data-src="assets/${c.slug}-0${k+1}"></div>`).join('');
+    const stats=c.stats.map(x=>`<div>${x[0]}<span>${x[1]}</span></div>`).join('');
+    return `
+      <span class="eyebrow">Кейс · ${c.year}</span>
+      <h1 class="c-title">${c.name}</h1>
+      <p class="c-kind">${c.kind}</p>
+      <div class="cmeta"><div>Клиент<b>${c.client}</b></div><div>Роль<b>${c.role}</b></div><div>Год<b>${c.year}</b></div><div>Срок<b>${c.term}</b></div></div>
+      <div class="chero slot" data-src="assets/${c.slug}-hero"></div>
+      <div class="ctext">
+        <div class="card"><h4>Задача</h4><p>${c.task}</p></div>
+        <div class="card"><h4>Решение</h4><p>${c.solution}</p></div>
+        <div class="card"><h4>Результат</h4><p>${c.result}</p></div>
+      </div>
+      <div class="cstats">${stats}</div>
+      <div class="cgal">${tiles}</div>
+      <button class="cnext card" type="button" data-next="${n.slug}"><span class="eyebrow">Следующий кейс</span><span class="cn-name">${n.name}</span><span class="cn-arrow">→</span></button>
+      <div class="ccta"><button class="btn" id="case-cta" type="button">Обсудить похожий проект <i></i></button><span class="cnote">Тексты и цифры в кейсах — заглушки</span></div>`;
+  }
+  const baseTitle=document.title;
+  function showCase(slug,mode){
+    const i=CASES.findIndex(c=>c.slug===slug);if(i<0)return false;
+    const was=caseEl.classList.contains('open');
+    caseIn.innerHTML=caseHTML(i);loadSlots(caseIn);caseEl.scrollTop=0;
+    caseEl.classList.add('open');caseEl.setAttribute('aria-hidden','false');document.body.classList.add('casing');
+    document.title=CASES[i].name+' — '+baseTitle;
+    if(mode){try{history[(was||mode==='replace')?'replaceState':'pushState']({case:slug},'','#case-'+slug)}catch(e){}}
+    if(!was)setTimeout(()=>caseClose.focus({preventScroll:true}),450);
+    return true;
+  }
+  function hideCase(){
+    caseEl.classList.remove('open');caseEl.setAttribute('aria-hidden','true');document.body.classList.remove('casing');document.title=baseTitle;
+  }
+  function closeCase(){
+    if(history.state&&history.state.case){history.back()}
+    else{hideCase();try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
+  }
+  function route(){const m=location.hash.match(/^#case-([\w-]+)$/);if(m&&showCase(m[1],null))return;hideCase()}
+  document.querySelectorAll('[data-case]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showCase(a.dataset.case,'push')}));
+  caseClose.onclick=closeCase;
+  caseIn.addEventListener('click',e=>{
+    const nx=e.target.closest('[data-next]');
+    if(nx){showCase(nx.dataset.next,'replace');return}
+    if(e.target.closest('#case-cta')){
+      closeCase();setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),120);
+    }
+  });
+  addEventListener('keydown',e=>{if(e.key==='Escape'){if(caseEl.classList.contains('open'))closeCase();else document.body.classList.remove('menu')}});
+  addEventListener('popstate',route);addEventListener('hashchange',route);
+  route();
+
+  // ---------- contact form ----------
+  // Чтобы форма отправляла заявки на сервер, вставьте адрес приёма (например, Formspree или свой API).
+  // Пока адрес пустой, форма откроет письмо в почтовом клиенте.
+  const FORM_ENDPOINT='';
+  const MAIL_TO='hello@garage.agency';
+  const form=document.getElementById('form'),ferr=document.getElementById('ferr'),submitBtn=document.getElementById('submit');
+  const $=id=>document.getElementById(id);
+  function fail(id,msg){const fld=$(id).closest('.fld');fld.classList.add('err');ferr.textContent=msg;$(id).focus()}
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    form.querySelectorAll('.fld.err').forEach(f=>f.classList.remove('err'));ferr.textContent='';
+    if($('f-hp').value){form.classList.add('sent');return}
+    const name=$('f-name').value.trim(),contact=$('f-contact').value.trim(),msg=$('f-msg').value.trim();
+    if(name.length<2)return fail('f-name','Укажите, как к вам обращаться');
+    if(!/^(@[\w.]{3,}|\S+@\S+\.\S+|\+?[\d\s()\-]{7,})$/.test(contact))return fail('f-contact','Укажите почту, Telegram (@username) или телефон');
+    if(msg.length<10)return fail('f-msg','Расскажите о проекте чуть подробнее');
+    const services=[...document.querySelectorAll('#f-services input:checked')].map(i=>i.value);
+    const data={name,contact,services,budget:$('f-budget').value,message:msg};
+    const donep=$('donep');
+    if(FORM_ENDPOINT){
+      submitBtn.disabled=true;
+      try{
+        const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+        if(!r.ok)throw new Error(r.status);
+        donep.textContent='Заявка отправлена. Мы свяжемся с вами в течение рабочего дня.';
+        form.classList.add('sent');
+      }catch(err){
+        ferr.textContent='Не удалось отправить. Попробуйте ещё раз или напишите на '+MAIL_TO;
+      }
+      submitBtn.disabled=false;
+    }else{
+      const body=`Имя: ${name}\nКонтакт: ${contact}\nЧто нужно: ${services.join(', ')||'не указано'}\nБюджет: ${data.budget}\n\n${msg}`;
+      location.href=`mailto:${MAIL_TO}?subject=${encodeURIComponent('Заявка с сайта Garage Agency')}&body=${encodeURIComponent(body)}`;
+      donep.textContent='Открыли письмо в почтовом клиенте. Если оно не появилось — напишите на '+MAIL_TO+'.';
+      form.classList.add('sent');
+    }
+  });
+  $('again').onclick=()=>{form.reset();form.classList.remove('sent');ferr.textContent=''};
+
+  // шапка меняет цвет поверх тёмных секций
+  const darkSecs=[...document.querySelectorAll('.about,.contact,footer,.kit')];
+  function hdTheme(){
+    const y=40;
+    const d=darkSecs.some(el=>{if(el.classList.contains('kit')&&el.dataset.theme!=='dark')return false;const r=el.getBoundingClientRect();return r.top<=y&&r.bottom>=y});
+    hd.classList.toggle('dark',d);
+  }
+  addEventListener('scroll',hdTheme,{passive:true});addEventListener('resize',hdTheme);
+  stage.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',hdTheme));
+  hdTheme();
+
+  // ---------- команда: диван, карточки, пиксельные глаза ----------
+  (function(){
+    const stage=document.getElementById('tstage'),img=document.getElementById('tsofa'),cv=document.getElementById('tpx');
+    if(!stage||!img||!cv)return;
+    const hots=[...stage.querySelectorAll('.hot')],cards=[...stage.querySelectorAll('.tcard')];
+    const stack=matchMedia('(max-width:720px)');
+    let cur=-1,leaveT=0;
+
+    function setActive(i){
+      clearTimeout(leaveT);
+      cur=i;
+      hots.forEach((h,k)=>{h.classList.toggle('on',k===i);h.setAttribute('aria-expanded',k===i)});
+      cards.forEach((c,k)=>c.classList.toggle('on',k===i));
+      stage.classList.toggle('has-on',i>=0);
+    }
+    hots.forEach((h,i)=>{
+      h.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')setActive(i)});
+      h.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&!stack.matches){leaveT=setTimeout(()=>setActive(-1),120)}});
+      h.addEventListener('focus',()=>setActive(i));
+      h.addEventListener('click',()=>{setActive(cur===i&&!stack.matches?-1:i)});
+      h.addEventListener('keydown',e=>{if(e.key==='Escape')setActive(-1)});
+    });
+    // на телефоне всегда показываем карточку (место под неё зарезервировано)
+    const ensure=()=>{if(stack.matches&&cur<0)setActive(1)};
+    stack.addEventListener('change',ensure);ensure();
+
+    // ---- пиксельный фильтр на глаза (координаты в пикселях исходника 1536×1024) ----
+    const EYES=[{x:378,y:217,w:67,h:29},{x:708,y:205,w:64,h:27},{x:1138,y:222,w:58,h:24}];
+    const ctx=cv.getContext('2d'),tmp=document.createElement('canvas'),tctx=tmp.getContext('2d');
+    const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    let k=1,visible=false,raf=0,last=0;
+
+    function size(){
+      const dpr=Math.min(devicePixelRatio||1,2),r=stage.getBoundingClientRect();
+      cv.width=Math.max(2,Math.round(r.width*dpr));cv.height=Math.max(2,Math.round(r.height*dpr));
+      k=cv.width/(img.naturalWidth||1536);
+    }
+    function draw(t){
+      if(!img.naturalWidth)return;
+      const f=img.naturalWidth/1536; // если подмените картинку другого размера — координаты масштабируются
+      ctx.clearRect(0,0,cv.width,cv.height);
+      ctx.imageSmoothingEnabled=false;
+      EYES.forEach((e,i)=>{
+        const on=cur===i;
+        const sx=e.x*f,sy=e.y*f,sw=e.w*f,sh=e.h*f;
+        // размер «пикселя» пульсирует; при наведении крупнее и быстрее
+        const wave=Math.sin(t*(on?.0042:.0021)+i*1.7)*.5+.5;
+        const cell=(on?4:5.5)+wave*(on?5:4.5);
+        const tw=Math.max(3,Math.round(sw/(cell*f))),th=Math.max(2,Math.round(sh/(cell*f)));
+        tmp.width=tw;tmp.height=th;
+        tctx.imageSmoothingEnabled=true;
+        tctx.drawImage(img,sx,sy,sw,sh,0,0,tw,th);
+        const dx=sx*k,dy=sy*k,dw=sw*k,dh=sh*k;
+        ctx.drawImage(tmp,0,0,tw,th,dx,dy,dw,dh);
+        // зелёные «битые» пиксели
+        const cw=dw/tw,ch=dh/th;
+        const n=on?5:2;
+        for(let j=0;j<n;j++){
+          const cx=Math.floor(Math.random()*tw),cy=Math.floor(Math.random()*th);
+          ctx.fillStyle='rgba(80,200,120,'+(on?.75:.5)+')';
+          ctx.fillRect(dx+cx*cw,dy+cy*ch,Math.ceil(cw),Math.ceil(ch));
+        }
+        // бегущая колонка-«скан»
+        const col=Math.floor(((t*(on?.0009:.0005)+i*.31)%1)*tw);
+        ctx.fillStyle='rgba(80,200,120,.28)';
+        ctx.fillRect(dx+col*cw,dy,Math.ceil(cw),dh);
+      });
+    }
+    function loop(t){
+      raf=requestAnimationFrame(loop);
+      if(t-last<75)return; // ~13 кадров/с — «дёрганый» пиксельный ритм
+      last=t;draw(t);
+    }
+    function start(){if(!raf&&visible&&!reduce)raf=requestAnimationFrame(loop)}
+    function stop(){cancelAnimationFrame(raf);raf=0}
+    function init(){stage.classList.add('ok');size();draw(0);start()}
+    if(img.complete&&img.naturalWidth)init();else img.addEventListener('load',init,{once:true});
+    addEventListener('resize',()=>{size();draw(performance.now())});
+    new IntersectionObserver(es=>{visible=es[0].isIntersecting;visible?start():stop()},{rootMargin:'120px'}).observe(stage);
+  })();
+</script>
+</body>
+</html>
