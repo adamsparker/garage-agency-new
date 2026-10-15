@@ -346,7 +346,7 @@
   .case-close{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:99px;padding:9px 16px;font:500 11.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:.2s}
   .case-close:hover{background:var(--ink);color:#fff}
   .case-in{max-width:1240px;margin:0 auto;padding:50px 28px 100px}
-  .c-title{font-size:clamp(48px,9vw,128px);letter-spacing:-.055em;line-height:.92;font-weight:600;margin-top:18px}
+  .c-title{font-size:clamp(48px,9vw,128px);letter-spacing:-.055em;line-height:.92;font-weight:600;margin:18px 0 0;max-width:none}
   .c-kind{margin-top:18px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
   .cmeta{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-top:1px solid var(--line);margin-top:40px;padding-top:20px}
   .cmeta div{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
@@ -363,6 +363,12 @@
   .cgal{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;margin-top:70px}
   .tile{grid-column:span 2;min-height:200px;border-radius:var(--r)}
   .tile.w{grid-column:span 4;aspect-ratio:16/10}
+  .sgal{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
+  .sgal .slot{aspect-ratio:4/3;border-radius:var(--r)}
+  .sgal .slot:nth-child(5n+1){grid-column:span 2;aspect-ratio:auto}
+  .s-lead{max-width:640px;margin-top:18px;font-size:18px;line-height:1.5;color:var(--muted)}
+  .stack:focus-visible{outline:2px solid var(--ink);outline-offset:14px;border-radius:var(--r-s)}
+  .stack:active .cardx{transform:rotate(0) translateY(-4px) scale(1.07)}
   .cnext{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;margin-top:70px;padding:34px;text-align:left;cursor:pointer;font-family:inherit;color:inherit;transition:transform .3s,background .3s}
   .cnext:hover{transform:translateY(-4px);background:var(--surface-2)}
   .cnext>span:first-child{align-self:flex-start}
@@ -422,6 +428,9 @@
     .cmeta{gap:16px}
     .cstats{grid-template-columns:1fr;gap:26px}
     .cgal{grid-template-columns:1fr;gap:14px}
+    .sgal{grid-template-columns:1fr 1fr;gap:12px}
+    .sgal .slot,.sgal .slot:nth-child(5n+1){grid-column:auto;aspect-ratio:4/3}
+    .sgal .slot:nth-child(5n+1){grid-column:span 2}
     .tile,.tile.w{grid-column:auto;aspect-ratio:4/3}
     .cnext{padding:22px;flex-wrap:wrap}
     .cn-name{margin-left:0}
@@ -532,12 +541,12 @@
     </div>
 
     <div class="stacks">
-      <div class="stack rv"><div class="pile"><span class="badge">6</span><span class="clip"></span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-1"></div></div></div><p>Брендинг</p></div>
-      <div class="stack rv"><div class="pile"><span class="badge">4</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-2"></div></div></div><p>Сайты</p></div>
-      <div class="stack rv"><div class="pile"><span class="badge">12</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-3"></div></div></div><p>Продукты</p></div>
-      <div class="stack rv"><div class="pile"><span class="badge">3</span><span class="tape"></span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-4"></div></div></div><p>Типографика</p></div>
-      <div class="stack rv"><div class="pile"><span class="badge">12</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-5"></div></div></div><p>Интерфейсы</p></div>
-      <div class="stack rv"><div class="pile"><span class="badge">9</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/stack-6"></div></div></div><p>Коммуникации</p></div>
+      <div class="stack rv" data-stack="branding" role="button" tabindex="0"><div class="pile"><span class="badge">6</span><span class="clip"></span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/branding-cover"></div></div></div><p>Брендинг</p></div>
+      <div class="stack rv" data-stack="sites" role="button" tabindex="0"><div class="pile"><span class="badge">4</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/sites-cover"></div></div></div><p>Сайты</p></div>
+      <div class="stack rv" data-stack="products" role="button" tabindex="0"><div class="pile"><span class="badge">12</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/products-cover"></div></div></div><p>Продукты</p></div>
+      <div class="stack rv" data-stack="type" role="button" tabindex="0"><div class="pile"><span class="badge">3</span><span class="tape"></span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/type-cover"></div></div></div><p>Типографика</p></div>
+      <div class="stack rv" data-stack="interfaces" role="button" tabindex="0"><div class="pile"><span class="badge">12</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/interfaces-cover"></div></div></div><p>Интерфейсы</p></div>
+      <div class="stack rv" data-stack="comms" role="button" tabindex="0"><div class="pile"><span class="badge">9</span><div class="sheet a"></div><div class="sheet b"></div><div class="cardx"><div class="slot" data-src="assets/comms-cover"></div></div></div><p>Коммуникации</p></div>
     </div>
   </div>
 </section>
@@ -573,9 +582,9 @@
   <div class="wrap">
     <div class="sh rv"><div><span class="eyebrow">01 / Работы</span><h2 class="h2">Избранные<br>работы</h2></div><p>Проекты, в которых форма и функция работают вместе. Нажмите на карточку, чтобы открыть кейс. Названия и описания — заглушки.</p></div>
     <div class="grid">
-      <a class="proj p1 rv" href="#case-brew-station" data-case="brew-station"><div class="slot pimg" data-src="assets/work-1"></div><div class="pt"><span>Продуктовый дизайн · кофейное оборудование</span><span>2026</span></div><div><h3>Brew Station</h3><div class="chips"><span class="chip">Продукт</span><span class="chip">Интерфейс</span><span class="chip o">Коммуникации</span></div></div></a>
+      <a class="proj p1 rv" href="#case-kinetika-pro" data-case="kinetika-pro"><div class="slot pimg" data-src="assets/work-1"></div><div class="pt"><span>Веб-продукт · тренировки и питание</span><span>2026</span></div><div><h3>Kinetika Pro</h3><div class="chips"><span class="chip">Продукт</span><span class="chip">Интерфейс</span><span class="chip o">Разработка</span></div></div></a>
       <a class="proj p2 rv" href="#case-roast-notes" data-case="roast-notes"><div class="slot pimg" data-src="assets/work-2"></div><div class="pt"><span>Брендинг · упаковка</span><span>2026</span></div><div><h3>Roast Notes</h3><div class="chips"><span class="chip">Брендинг</span><span class="chip o">Коммуникации</span></div></div></a>
-      <a class="proj p3 rv" href="#case-night-shift" data-case="night-shift"><div class="slot pimg" data-src="assets/work-3"></div><div class="pt"><span>Бренд и сайт</span><span>2025</span></div><div><h3>Night Shift</h3><div class="chips"><span class="chip">Брендинг</span><span class="chip o">Сайт</span></div></div></a>
+      <a class="proj p3 rv" href="#case-interceptor" data-case="interceptor"><div class="slot pimg" data-src="assets/work-3"></div><div class="pt"><span>Веб-продукт · проверка знаний</span><span>2026</span></div><div><h3>Interceptor</h3><div class="chips"><span class="chip">Продукт</span><span class="chip">Интерфейс</span><span class="chip o">Разработка</span></div></div></a>
       <a class="proj p4 rv" href="#case-research-atlas" data-case="research-atlas"><div class="slot pimg" data-src="assets/work-4"></div><div class="pt"><span>Веб-разработка · веб-приложение</span><span>2025</span></div><div><h3>Research Atlas</h3><div class="chips"><span class="chip">Веб</span><span class="chip">UI-система</span><span class="chip o">Разработка</span></div></div></a>
     </div>
   </div>
@@ -751,21 +760,21 @@
 
   // ---------- project cases ----------
   const CASES=[
-    {slug:'brew-station',theme:'ink',name:'Brew Station',kind:'Продуктовый дизайн · кофейное оборудование',year:'2026',client:'Производитель кофемашин',role:'Дизайн продукта, интерфейс, коммуникации',term:'5 месяцев',
-     task:'Профессиональной кофемашине нужен был понятный интерфейс для бариста и узнаваемый облик, который одинаково работает на корпусе, на экране и в материалах для дилеров.',
-     solution:'Собрали единую систему: форма и органы управления, экран с минимумом действий, графика на корпусе и набор коммуникаций для запуска линейки.',
-     result:'Новый бариста осваивает машину быстрее, а вся линейка получила общий язык в продукте, на сайте и в упаковке.',
-     stats:[['−30%','время обучения'],['3','модели линейки'],['1','общая система']]},
+    {slug:'kinetika-pro',theme:'ink',name:'Kinetika Pro',kind:'Веб-продукт · тренировки и питание',year:'2026',client:'Собственный продукт',role:'Продукт, дизайн интерфейса, разработка',term:'в развитии',
+     task:'Людям, которые хотят тренироваться регулярно, обычно приходится держать программу в одном приложении, питание в другом, а прогресс в заметках. Нужна была одна платформа на русском языке, понятная новичку и достаточно глубокая для опытного.',
+     solution:'Собрали веб-приложение, которое работает как мобильное: онбординг по цели, уровню и типу питания; 12 авторских программ и конструктор своих; недельный рацион под бюджет и трекер КБЖУ; графики веса, личные рекорды, таймер отдыха и рейтинг участников. Подписка и магазин добавок встроены в тот же интерфейс.',
+     result:'Тренировки, питание и прогресс живут в одном месте: пользователь видит план на день, отмечает подходы и сразу получает обратную связь. Бесплатный доступ ведёт к подписке 299 ₽ в месяц или 1 990 ₽ в год.',
+     stats:[['12','авторских программ'],['299 ₽','подписка в месяц'],['−40%','годовой тариф']]},
     {slug:'roast-notes',theme:'light',name:'Roast Notes',kind:'Брендинг · упаковка и коммуникации',year:'2026',client:'Кофейная обжарка',role:'Айдентика, упаковка, коммуникации',term:'3 месяца',
      task:'Небольшой обжарке нужно было выделиться на полке среди десятков похожих пачек и при этом честно рассказывать о каждом сорте.',
      solution:'Придумали систему этикеток, где обжарка и вкус читаются за секунду, и единый тон коммуникации — в упаковке, соцсетях и на сайте.',
      result:'Бренд стал узнаваемым в рознице, а команда сама собирает новые этикетки по готовой системе.',
      stats:[['12','сортов в системе'],['2×','рост повторных заказов'],['4','канала коммуникации']]},
-    {slug:'night-shift',theme:'accent',name:'Night Shift',kind:'Брендинг · сайт',year:'2025',client:'Ночное кафе',role:'Бренд, дизайн и разработка сайта',term:'2 месяца',
-     task:'Нужен бренд для места, которое оживает после заката, и сайт, который работает в основном с телефона.',
-     solution:'Контрастная палитра, ночной интерфейс и быстрый сайт с меню, картой и бронированием в два касания.',
-     result:'Гости находят нужное за секунды, а сайт стал основным каналом бронирования.',
-     stats:[['2','касания до брони'],['0.9с','загрузка страницы'],['+45%','онлайн-брони']]},
+    {slug:'interceptor',theme:'accent',name:'Interceptor',kind:'Веб-продукт · проверка знаний',year:'2026',client:'Собственный продукт',role:'Продукт, дизайн интерфейса, разработка',term:'в развитии',
+     task:'Нужен был способ принимать работы у учеников онлайн так, чтобы преподаватель видел, насколько честно выполнен тест, а детям не приходилось регистрироваться и разбираться в сложном сервисе.',
+     solution:'Сделали платформу для проверки знаний с базовым прокторингом. Ученик входит по ссылке и коду группы, проходит тест с таймером, а рядом показан индекс добросовестности: он стартует со 100% и снижается, если участник уходит с вкладки, выходит из полноэкранного режима, копирует текст или закрывает камеру. Анализ идёт прямо в браузере, видео и звук не записываются. Преподаватель получает ответы и журнал нарушений в админке.',
+     result:'Проверка выглядит спокойно и понятно: крупные проценты и короткие статусы вместо тревожных предупреждений. Камера и микрофон работают как сдерживающий фактор, а приватность данных не страдает.',
+     stats:[['100%','стартовый индекс'],['0','записей видео и звука'],['1','ссылка и код группы']]},
     {slug:'research-atlas',theme:'grey',name:'Research Atlas',kind:'Веб-разработка · веб-приложение',year:'2025',client:'Исследовательская лаборатория',role:'UX, UI-система, разработка',term:'6 месяцев',
      task:'Исследователям нужен был единый каталог лабораторий и проектов, в котором легко искать, сравнивать и делиться находками.',
      solution:'Собрали веб-приложение с быстрым поиском, карточками с метками и дизайн-системой, которую команда продолжает развивать сама.',
@@ -794,7 +803,37 @@
       <button class="cnext card" type="button" data-next="${n.slug}"><span class="eyebrow">Следующий кейс</span><span class="cn-name">${n.name}</span><span class="cn-arrow">→</span></button>
       <div class="ccta"><button class="btn" id="case-cta" type="button">Обсудить похожий проект <i></i></button><span class="cnote">Тексты и цифры в кейсах — заглушки</span></div>`;
   }
+  // ---------- стопки: открываются в том же оверлее, что и кейсы ----------
+  const STACKS=[
+    {slug:'branding',name:'Брендинг',n:6,text:'Логотипы, айдентика и фирменные системы: от идеи до готовых гайдлайнов.'},
+    {slug:'sites',name:'Сайты',n:4,text:'Лендинги, корпоративные сайты и витрины: быстрые, понятные и собранные под задачу.'},
+    {slug:'products',name:'Продукты',n:12,text:'Веб-сервисы и приложения: логика, интерфейс и разработка в одной команде.'},
+    {slug:'type',name:'Типографика',n:3,text:'Шрифтовые пары, плакаты и вёрстка, где текст — главный герой.'},
+    {slug:'interfaces',name:'Интерфейсы',n:12,text:'Экраны, компоненты и дизайн-системы, которыми удобно пользоваться каждый день.'},
+    {slug:'comms',name:'Коммуникации',n:9,text:'Материалы для запуска: презентации, соцсети, упаковка и печатная продукция.'}
+  ];
+  function stackHTML(i){
+    const c=STACKS[i],nx=STACKS[(i+1)%STACKS.length];
+    const items=Array.from({length:c.n},(_,k)=>`<div class="slot" data-src="assets/${c.slug}-${String(k+1).padStart(2,'0')}"></div>`).join('');
+    return `
+      <span class="eyebrow">Подборка · ${c.n}</span>
+      <h1 class="c-title">${c.name}</h1>
+      <p class="s-lead">${c.text}</p>
+      <div class="sgal">${items}</div>
+      <button class="cnext card" type="button" data-next-stack="${nx.slug}"><span class="eyebrow">Следующая подборка</span><span class="cn-name">${nx.name}</span><span class="cn-arrow">→</span></button>
+      <div class="ccta"><button class="btn" id="case-cta" type="button">Обсудить проект <i></i></button></div>`;
+  }
   const baseTitle=document.title;
+  function showStack(slug,mode){
+    const i=STACKS.findIndex(c=>c.slug===slug);if(i<0)return false;
+    const was=caseEl.classList.contains('open');
+    caseIn.innerHTML=stackHTML(i);loadSlots(caseIn);caseEl.scrollTop=0;
+    caseEl.classList.add('open');caseEl.setAttribute('aria-hidden','false');document.body.classList.add('casing');
+    document.title=STACKS[i].name+' — '+baseTitle;
+    if(mode){try{history[(was||mode==='replace')?'replaceState':'pushState']({case:'stack-'+slug},'','#stack-'+slug)}catch(e){}}
+    if(!was)setTimeout(()=>caseClose.focus({preventScroll:true}),450);
+    return true;
+  }
   function showCase(slug,mode){
     const i=CASES.findIndex(c=>c.slug===slug);if(i<0)return false;
     const was=caseEl.classList.contains('open');
@@ -812,12 +851,18 @@
     if(history.state&&history.state.case){history.back()}
     else{hideCase();try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
   }
-  function route(){const m=location.hash.match(/^#case-([\w-]+)$/);if(m&&showCase(m[1],null))return;hideCase()}
+  function route(){const m=location.hash.match(/^#case-([\w-]+)$/);if(m&&showCase(m[1],null))return;const t=location.hash.match(/^#stack-([\w-]+)$/);if(t&&showStack(t[1],null))return;hideCase()}
   document.querySelectorAll('[data-case]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showCase(a.dataset.case,'push')}));
+  document.querySelectorAll('[data-stack]').forEach(el=>{
+    el.addEventListener('click',()=>showStack(el.dataset.stack,'push'));
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showStack(el.dataset.stack,'push')}});
+  });
   caseClose.onclick=closeCase;
   caseIn.addEventListener('click',e=>{
     const nx=e.target.closest('[data-next]');
     if(nx){showCase(nx.dataset.next,'replace');return}
+    const ns=e.target.closest('[data-next-stack]');
+    if(ns){showStack(ns.dataset.nextStack,'replace');return}
     if(e.target.closest('#case-cta')){
       closeCase();setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),120);
     }
