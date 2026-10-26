@@ -7,8 +7,8 @@
 <meta name="description" content="Garage Agency — дизайн и разработка цифровых продуктов.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Doto:wght@500;800&display=swap" rel="stylesheet">
-<script>try{if(!matchMedia('(prefers-reduced-motion:reduce)').matches&&!location.hash)document.documentElement.classList.add('ld')}catch(e){}</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@500;800&display=swap" rel="stylesheet">
+<script>try{if(!matchMedia('(prefers-reduced-motion:reduce)').matches&&!location.hash&&!sessionStorage.getItem('gld')){document.documentElement.classList.add('ld');sessionStorage.setItem('gld','1')}}catch(e){}</script>
 <style>
   /* =========================================================
      DESIGN SYSTEM
@@ -459,41 +459,146 @@
   @keyframes ldIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
   .ld-count{position:absolute;left:clamp(20px,4vw,56px);bottom:clamp(20px,4.5vh,44px);font-family:var(--mono);font-size:12px;letter-spacing:.08em;opacity:.6;font-variant-numeric:tabular-nums}
   .ld-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left}
+
+  /* =========================================================
+     REDESIGN v1 — панели, материалы, глубина
+     ========================================================= */
+  :root{--muted:#5f5c55}
+  body::after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .kit[data-theme="dark"],.contact,footer{background-attachment:scroll}
+  .card{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 2px 4px rgba(12,12,12,.05),0 22px 44px -22px rgba(12,12,12,.28)}
+  .proj{box-shadow:0 2px 4px rgba(12,12,12,.06),0 30px 50px -28px rgba(12,12,12,.4)}
+
+  /* секции — панели, наезжающие друг на друга */
+  .work,.team,.pricing,.tst,.contact{position:relative;margin-top:-44px;border-radius:44px 44px 0 0;box-shadow:0 -24px 40px -24px rgba(12,12,12,.28)}
+  .work,.team,.pricing,.tst{background-image:radial-gradient(circle,rgba(12,12,12,.1) 1.1px,transparent 1.5px);background-size:var(--grid) var(--grid)}
+  .work,.pricing{background-color:var(--bg)}
+  .team{background-color:var(--surface)}
+  .tst{background-color:var(--surface-2)}
+  .work{padding:140px 0 150px}
+  .team{padding:130px 0 130px}
+  .pricing{padding:130px 0 150px}
+  .tst{padding:130px 0 150px}
+  .contact{padding:130px 0 110px}
+
+  /* зелёная лента между работами и командой */
+  .band{background:var(--accent);color:var(--ink);overflow:hidden;padding:34px 0 84px}
+  .band-track{display:flex;width:max-content;animation:marq 45s linear infinite}
+  .band-track span{display:flex;align-items:center;gap:.4em;padding-right:.4em;font-size:clamp(44px,7.5vw,104px);font-weight:600;letter-spacing:-.05em;line-height:1;white-space:nowrap}
+  .band-track i{width:.26em;height:.26em;border-radius:50%;background:var(--ink);display:inline-block;margin:0 .1em}
+  @keyframes marq{to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.band-track{animation:none}}
+
+  /* команда / о нас (исправлено: вложенность и цвета) */
+  .about{background:none;padding:0;border-radius:0}
+  .about .wrap{padding:0}
+  .about .eyebrow{color:var(--muted);margin-bottom:0}
+  .about p{opacity:.85}
+  .about .stats div{border-top-color:var(--ink);font-size:clamp(44px,5vw,72px)}
+  .about .stats span{opacity:.75}
+
+  /* цены: цифры в Doto, выделенный тариф приподнят */
+  .plan .pr{display:flex;align-items:baseline;gap:8px;font-size:clamp(36px,3.8vw,52px);letter-spacing:-.03em}
+  .plan .pr small{font:500 13px var(--mono);letter-spacing:.05em;text-transform:uppercase;opacity:.6}
+  .plan .pr b{font-family:var(--dot);font-weight:800}
+  .plan.feat{position:relative;box-shadow:0 34px 60px -22px rgba(12,12,12,.55),0 0 0 6px rgba(80,200,120,.28)}
+  .plan.feat.rv.in{transform:translateY(-16px)}
+  .plan.feat::after{content:"Выбирают чаще";position:absolute;top:-14px;right:26px;background:var(--accent);color:var(--ink);font:500 10.5px var(--mono);letter-spacing:.05em;padding:6px 12px;border-radius:99px}
+
+  /* отзывы: одна большая цитата + две поменьше */
+  .tcols{grid-template-columns:repeat(2,1fr)}
+  .t:first-child{grid-column:1/-1;min-height:340px;padding:46px;background:var(--ink);color:#fff;border-color:var(--ink)}
+  .t:first-child q{font-size:clamp(28px,4.4vw,60px);letter-spacing:-.045em;line-height:1.05;font-weight:600;max-width:960px}
+  .t:first-child .who span{color:rgba(255,255,255,.6)}
+  @media(max-width:960px){.tcols{grid-template-columns:1fr}.t:first-child{padding:28px;min-height:250px}.plan.feat.rv.in{transform:none}.work,.team,.pricing,.tst,.contact{margin-top:-28px;border-radius:28px 28px 0 0}}
+
+  /* ---------- HERO v2: заголовок из точек ---------- */
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .hero{padding:124px 0 90px;background-color:rgba(235,233,227,.7)}
+  .hero .top.hero-v2{text-align:left}
+  .hero-meta{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  .hero .eyebrow{margin-bottom:0}
+  .hx-hint{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+  .hx{position:relative;width:100%;margin-top:34px;touch-action:pan-y}
+  .hx canvas{display:block;width:100%}
+  .hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
+  .hero-foot .sub{margin:0;max-width:470px;font-size:16px;text-align:left}
+  .hero .hero-foot .btn{margin-top:0}
+  .hero .stacks{margin-top:110px}
+
+  /* ---------- ЧИТАЕМОСТЬ ---------- */
+  .eyebrow,.pill,.chip,.proj .pt,.plan .n,.tc-top,.tc-name,.tc-chips span,.fld label,.opt span,.fr,.stack p,.stats span,.cmeta div,.cstats span,.cnote,.case-close,.right a,.hx-hint,.kit-note,.who span,.mn-foot,.ferr,.again,.thint,.hot::after,.plan .pr small{font-size:12.5px;letter-spacing:.03em}
+  .cl{font-size:13px;letter-spacing:.03em}
+  .k-title p{font-size:max(12px,calc(1.05*var(--u)));letter-spacing:.04em}
+  h1,.h2,.c-title,.big,.mnav .big-l,.cn-name,.k-title h2{letter-spacing:-.035em}
+  .proj h3,.tcard h3,.done h3{letter-spacing:-.02em}
+  .t q{letter-spacing:-.01em}
+  .t:first-child q{letter-spacing:-.03em}
+  .hero{overflow-x:clip}
+
+  /* ---------- ЛОАДЕР v2: точечная шторка ---------- */
+  html.ld .loader{display:block;background:transparent;transition:none}
+  .loader.out{transform:none}
+  .ld-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .ld-logo{position:absolute;z-index:1;left:clamp(20px,4vw,56px);top:clamp(20px,4vw,40px);width:128px;height:auto;aspect-ratio:683/120;color:var(--bg);fill:currentColor;transition:opacity .3s}
+  .ld-count{position:absolute;z-index:1;left:clamp(20px,4vw,56px);bottom:clamp(20px,4.5vh,48px);display:flex;align-items:flex-start;gap:.08em;font-family:var(--dot);font-weight:800;font-size:clamp(72px,12vw,180px);line-height:.8;letter-spacing:0;opacity:1;color:var(--bg);text-shadow:0 0 22px var(--ink),0 0 8px var(--ink);transition:opacity .3s}
+  .ld-count small{font-size:.3em;color:var(--accent)}
+  .loader.out .ld-count,.loader.out .ld-logo{opacity:0}
+
+  /* ---------- ЛОАДЕР v3: полосы-шторка ---------- */
+  .ld-strips{position:absolute;inset:0;display:flex;overflow:hidden}
+  .ld-strips i{flex:none;width:calc(100%/6 + 1px);margin-right:-1px;background:var(--ink);transition:transform .9s cubic-bezier(.76,0,.24,1) calc(var(--k)*80ms)}
+  .loader.out .ld-strips i{transform:translateY(-101%)}
+  .ld-count{font-size:clamp(88px,15vw,230px);text-shadow:none}
+  .ld-bar{z-index:1;height:2px;transition:opacity .3s}
+  .loader.out .ld-bar{opacity:0}
+
+  /* ---------- СКРОЛЛБАР ---------- */
+  @media(hover:hover){
+    html{scrollbar-width:none}
+    html::-webkit-scrollbar,.case::-webkit-scrollbar{display:none;width:0;height:0}
+    .case{scrollbar-width:none}
+  }
+  .sb{position:fixed;top:0;right:0;bottom:0;width:20px;z-index:90;opacity:.6;transition:opacity .3s}
+  .sb.act,.sb:hover,.sb.drag{opacity:1}
+  .sb::before{content:"";position:absolute;top:14px;bottom:14px;right:8px;width:2px;border-radius:2px;background:rgba(12,12,12,.16);transition:background .25s}
+  .sb-thumb{position:absolute;top:0;right:7px;width:4px;border-radius:99px;background:var(--ink);cursor:grab;transition:width .2s,right .2s,background .25s;will-change:transform}
+  .sb:hover .sb-thumb,.sb.drag .sb-thumb{width:8px;right:5px}
+  .sb.drag .sb-thumb{cursor:grabbing}
+  .sb-pct{position:absolute;right:22px;top:50%;translate:0 -50%;font-family:var(--dot);font-weight:800;font-size:15px;line-height:1;color:var(--ink);opacity:0;transition:opacity .25s,color .25s;pointer-events:none}
+  .sb.lt::before{background:rgba(255,255,255,.22)}.sb.lt .sb-thumb{background:#fff}.sb.lt .sb-pct{color:#fff}
+  .sb.act .sb-pct,.sb.drag .sb-pct{opacity:1}
+  @media(hover:none){.sb{display:none!important}}
 </style>
 </head>
 <body>
 <!-- LOADER -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="gl" viewBox="0 0 683 120" fill="currentColor"><circle cx="58.6333" cy="60.3276" r="18.3609"/><circle cx="150.438" cy="19.0151" r="18.3609"/><circle cx="241.84" cy="19.0151" r="18.3609"/><circle cx="241.84" cy="60.3276" r="18.3609"/><circle cx="241.84" cy="101.638" r="18.3609"/><circle cx="285.544" cy="60.3276" r="18.3609"/><circle cx="376.145" cy="19.0151" r="18.3609"/><circle cx="58.6333" cy="19.0151" r="18.3609"/><circle cx="18.3609" cy="60.3276" r="18.3609"/><circle cx="18.3609" cy="19.0151" r="18.3609"/><circle cx="463.817" cy="19.0151" r="18.3609"/><circle cx="463.817" cy="60.3276" r="18.3609"/><circle cx="503.884" cy="60.3276" r="18.3609"/><circle cx="626.399" cy="25.0819" r="18.3609" transform="rotate(-30 626.399 25.0819)"/><circle cx="657.189" cy="56.8416" r="18.3609" transform="rotate(-30 657.189 56.8416)"/><circle cx="503.884" cy="19.0151" r="18.3609"/></symbol></svg>
 <div class="loader" id="loader" aria-hidden="true">
-  <svg class="ld-mark" id="ldMark" viewBox="0 0 683 120"></svg>
-  <div class="ld-count"><span id="ldNum">0</span>%</div>
+  <div class="ld-strips"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i></div>
+  <svg class="ld-logo" viewBox="0 0 683 120"><use href="#gl"/></svg>
+  <div class="ld-count"><span id="ldNum">0</span><small>%</small></div>
   <div class="ld-bar" id="ldBar"></div>
 </div>
 <script>
 (()=>{
   const html=document.documentElement,L=document.getElementById('loader');
   if(!L||!html.classList.contains('ld'))return;
-  const mark=document.getElementById('ldMark'),num=document.getElementById('ldNum'),bar=document.getElementById('ldBar');
-  // логотип берём из общего символа #gl, точки появляются по очереди
-  mark.innerHTML=document.getElementById('gl').innerHTML;
-  mark.querySelectorAll('circle').forEach((c,i)=>c.style.setProperty('--i',i));
+  const num=document.getElementById('ldNum'),bar=document.getElementById('ldBar');
   let done=false,loaded=document.readyState==='complete';
   if(!loaded)addEventListener('load',()=>loaded=true,{once:true});
   function finish(){
-    if(done)return;done=true;
-    L.classList.add('out');
-    setTimeout(()=>dispatchEvent(new Event('loader:done')),300);
-    setTimeout(()=>{html.classList.remove('ld');L.remove()},950);
+    if(done)return;done=true;L.classList.add('out');
+    setTimeout(()=>dispatchEvent(new Event('loader:done')),350);
+    setTimeout(()=>{html.classList.remove('ld');L.remove()},1700);
   }
   L.addEventListener('click',finish);
   setTimeout(finish,6000); // страховка
-  const D=1600,t0=performance.now();
+  const D=1700,t0=performance.now();
   (function tick(now){
     if(done)return;
-    const t=Math.min(1,(now-t0)/D);
-    let p=1-Math.pow(1-t,2);if(!loaded)p=Math.min(p,.97);
-    num.textContent=Math.round(p*100);
-    bar.style.transform='scaleX('+p+')';
+    const t=Math.min(1,(now-t0)/D);let p=1-Math.pow(1-t,2);if(!loaded)p=Math.min(p,.97);
+    num.textContent=Math.round(p*100);bar.style.transform='scaleX('+p+')';
     if(p>=1){setTimeout(finish,250);return}
     requestAnimationFrame(tick);
   })(t0);
@@ -507,10 +612,10 @@
     <a class="logo" href="#top" aria-label="Garage Agency"><svg class="lg" viewBox="0 0 683 120" role="img" aria-label="Garage Agency"><use href="#gl"/></svg></a>
     <nav class="links">
       <a href="#work">Портфолио</a>
+      <a href="#team">Команда</a>
       <a href="#pricing">Цены</a>
       <a href="#reviews">Отзывы</a>
-      <a href="#team">Команда</a>
-      <a href="#about">О нас</a>
+      <a href="#contact">Контакты</a>
     </nav>
     <div class="right"><a href="#contact">Написать</a><button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span></button></div>
   </div>
@@ -519,11 +624,10 @@
 <nav class="mnav" id="mnav" aria-label="Мобильное меню">
   <div>
     <a class="big-l" href="#work">Портфолио <small>01</small></a>
-    <a class="big-l" href="#pricing">Цены <small>02</small></a>
-    <a class="big-l" href="#reviews">Отзывы <small>03</small></a>
-    <a class="big-l" href="#team">Команда <small>04</small></a>
-    <a class="big-l" href="#about">О нас <small>05</small></a>
-    <a class="big-l" href="#contact">Контакты <small>06</small></a>
+    <a class="big-l" href="#team">Команда <small>02</small></a>
+    <a class="big-l" href="#pricing">Цены <small>03</small></a>
+    <a class="big-l" href="#reviews">Отзывы <small>04</small></a>
+    <a class="big-l" href="#contact">Контакты <small>05</small></a>
   </div>
   <div class="mn-foot"><span>hello@garage.agency</span><span>Telegram · VK</span></div>
 </nav>
@@ -532,12 +636,14 @@
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="wrap">
-    <div class="top">
-      <span class="eyebrow rv">Открыты для новых проектов</span>
-      <h1 class="rv">Дизайн с характером — от сайтов до кофейных машин</h1>
-      <p class="sub rv">Дизайн, веб-разработка, брендинг и продуктовый дизайн. Делаем <b>сайты, бренды и оборудование</b> — например, кофейное — из деталей, у которых есть смысл.</p>
-      <div class="tags rv"><span class="pill">Дизайн</span><span class="pill">Веб-разработка</span><span class="pill">Брендинг</span><span class="pill">Продуктовый дизайн</span><span class="pill">Коммуникации</span></div>
-      <a href="#contact" class="btn rv">Обсудить проект <i></i></a>
+    <div class="top hero-v2">
+      <div class="hero-meta rv"><span class="eyebrow">Открыты для новых проектов</span><span class="hx-hint"><span class="kn-hover"></span><span class="kn-touch">Проведите пальцем по буквам</span></span></div>
+      <h1 class="sr">Дизайн с характером — от сайтов до кофейных машин</h1>
+      <div class="hx" id="hx"><canvas id="hxc" aria-hidden="true"></canvas></div>
+      <div class="hero-foot rv">
+        <p class="sub"><b>Создаём настоящие продукты.</b> Дизайн, веб-разработка, брендинг и приложения — Мы делаем всё чтобы улучшить ваш бизнес.</p>
+        <a href="#contact" class="btn">Обсудить проект <i></i></a>
+      </div>
     </div>
 
     <div class="stacks">
@@ -561,7 +667,7 @@
         <button class="moon" data-t="dark" aria-label="Тёмная тема">☾</button>
       </div></div>
 
-      <div class="k-title"><h2>Garage UI kit</h2><p>Продукты, которые чувствуют контекст</p></div>
+      <div class="k-title"><h2>В душе мы <br> инженеры</h2><p>За нашами плечами большой опыт продуктового дизайна</p></div>
 
       <div class="fl ks k1" data-depth="0.5" style="--d:-1s"><div class="in slot" data-src="assets/kit-01"></div></div>
       <div class="fl ks k2" data-depth="0.8" style="--d:-2s"><div class="in slot" data-src="assets/kit-02"></div></div>
@@ -580,7 +686,7 @@
 <!-- WORK -->
 <section class="work" id="work">
   <div class="wrap">
-    <div class="sh rv"><div><span class="eyebrow">01 / Работы</span><h2 class="h2">Избранные<br>работы</h2></div><p>Проекты, в которых форма и функция работают вместе. Нажмите на карточку, чтобы открыть кейс. Названия и описания — заглушки.</p></div>
+    <div class="sh rv"><div><span class="eyebrow">Работы</span><h2 class="h2">Избранные<br>работы</h2></div><p>Проекты, в которых форма и функция работают вместе. Нажмите на карточку, чтобы открыть кейс. Названия и описания — заглушки.</p></div>
     <div class="grid">
       <a class="proj p1 rv" href="#case-kinetika-pro" data-case="kinetika-pro"><div class="slot pimg" data-src="assets/work-1"></div><div class="pt"><span>Веб-продукт · тренировки и питание</span><span>2026</span></div><div><h3>Kinetika Pro</h3><div class="chips"><span class="chip">Продукт</span><span class="chip">Интерфейс</span><span class="chip o">Разработка</span></div></div></a>
       <a class="proj p2 rv" href="#case-roast-notes" data-case="roast-notes"><div class="slot pimg" data-src="assets/work-2"></div><div class="pt"><span>Брендинг · упаковка</span><span>2026</span></div><div><h3>Roast Notes</h3><div class="chips"><span class="chip">Брендинг</span><span class="chip o">Коммуникации</span></div></div></a>
@@ -590,43 +696,22 @@
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="wrap">
-    <div class="sh rv"><div><span class="eyebrow">02 / Цены</span><h2 class="h2">Форматы<br>работы</h2></div><p>Ориентировочные цены. Точную стоимость считаем после брифа.</p></div>
-    <div class="plans">
-      <div class="plan card rv"><span class="n">01 · Старт</span><div class="pr">от 80 000 ₽</div><ul><li>Лендинг или визитка</li><li>Дизайн + вёрстка</li><li>Адаптив под мобильные</li><li>Срок 2–3 недели</li></ul><a href="#contact">Выбрать</a></div>
-      <div class="plan card feat rv"><span class="n">02 · Студия</span><div class="pr">от 250 000 ₽</div><ul><li>Многостраничный сайт</li><li>Айдентика и UI-кит</li><li>Анимации и motion</li><li>Срок 5–8 недель</li></ul><a href="#contact">Выбрать</a></div>
-      <div class="plan card rv"><span class="n">03 · Продукт</span><div class="pr">от 600 000 ₽</div><ul><li>Веб-приложение</li><li>Исследование и прототип</li><li>Дизайн-система</li><li>Поддержка после запуска</li></ul><a href="#contact">Выбрать</a></div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="tst" id="reviews">
-  <div class="wrap">
-    <div class="sh rv"><div><span class="eyebrow">03 / Отзывы</span><h2 class="h2">Что говорят<br>клиенты</h2></div><p>Отзывы-заглушки — позже заменим на реальные.</p></div>
-    <div class="tcols">
-      <div class="t card rv"><q>Команда быстро поняла задачу и предложила решение лучше, чем мы ожидали.</q><div class="who"><i class="slot" data-src="assets/avatar-1"></i><div>Имя Фамилия<span>Основатель, Компания</span></div></div></div>
-      <div class="t card rv"><q>Аккуратная работа с деталями. Сайт стал частью бренда, а не просто витриной.</q><div class="who"><i class="slot" data-src="assets/avatar-2"></i><div>Имя Фамилия<span>Маркетинг, Компания</span></div></div></div>
-      <div class="t card rv"><q>Приятно, когда дизайнеры понимают разработку и сразу думают о том, как это будет жить.</q><div class="who"><i class="slot" data-src="assets/avatar-3"></i><div>Имя Фамилия<span>CPO, Компания</span></div></div></div>
-    </div>
-  </div>
-</section>
+<!-- BAND -->
+<section class="band" aria-hidden="true"><div class="band-track"><span>Сайты<i></i>Брендинг<i></i>Продукты<i></i>Интерфейсы<i></i>Типографика<i></i>Коммуникации<i></i></span><span>Сайты<i></i>Брендинг<i></i>Продукты<i></i>Интерфейсы<i></i>Типографика<i></i>Коммуникации<i></i></span></div></section>
 
 <!-- TEAM -->
 <section class="team" id="team">
 <div class="wrap">
-<section class="about" id="about">
+<div class="about" id="about">
   <div class="wrap">
-    <div><h2 class="h2 rv">Небольшая команда. Большое внимание к деталям.</h2></div>
+    <div><span class="eyebrow rv">Команда</span><h2 class="h2 rv" style="margin-top:16px">Небольшая команда. Большое внимание к деталям.</h2></div>
     <div class="rv">
       <p>Garage Agency — студия дизайна и веб-разработки: сайты, брендинг, продуктовый дизайн и коммуникации, в том числе для кофейного оборудования. Дизайнеры и разработчики работают за одним столом, быстро собирают прототип и дорабатывают его вместе с вами.</p>
       <p>Никаких шаблонов и случайных решений: у каждого элемента на экране есть причина.</p>
       <div class="stats"><div>40+<span>проектов</span></div><div>6<span>лет на рынке</span></div><div>100<span>% вовлечённость</span></div></div>
     </div>
   </div>
-</section>    
+</div>
 <div class="rv">
       <div class="tstage" id="tstage">
         <div class="thint"><span><span class="t-hover">Наведите</span><span class="t-touch">Нажмите</span> на любого гаражевца</span><i></i></div>
@@ -634,8 +719,32 @@
         <img id="tsofa" src="assets/sofa.png" alt="Команда Garage Agency на диване" width="1536" height="1024" decoding="async">
         <canvas id="tpx" aria-hidden="true"></canvas>
         <button type="button" class="hot" data-i="0" data-n="01" style="--l:9.0%;--t:13.7%;--w:27.0%;--h:73.7%;--py:37%" aria-expanded="false" aria-controls="tc0" aria-label="Дизайнер интерфейсов — подробнее"><span class="pin"></span></button><button type="button" class="hot" data-i="1" data-n="02" style="--l:36.4%;--t:12.6%;--w:25.4%;--h:78.0%;--py:37%" aria-expanded="false" aria-controls="tc1" aria-label="Арт-директор — подробнее"><span class="pin"></span></button><button type="button" class="hot" data-i="2" data-n="03" style="--l:61.8%;--t:15.6%;--w:34.0%;--h:74.7%;--py:36%" aria-expanded="false" aria-controls="tc2" aria-label="Разработчик — подробнее"><span class="pin"></span></button>
-        <article class="tcard" id="tc0" data-i="0" style="--cx:26.5%;--hy:13.0%"><div class="tc-top"><span>Дизайн</span><b>01</b></div><h3>Дизайнер</h3><div class="tc-name">Алиев Адам</div><p>Рисует интерфейсы и дизайн-системы, собирает прототипы и доводит каждый экран до мелочей.</p><div class="tc-chips"><span>Дизайн</span><span>Figma</span><span>UI-кит</span><span>Прототипы</span></div></article><article class="tcard" id="tc1" data-i="1" style="--cx:48.5%;--hy:12.6%"><div class="tc-top"><span>Разработка</span><b>02</b></div><h3>Разработчик</h3><div class="tc-name">Сембиев Зелим</div><p>Отвечает за работу сайтов и приложений: может реанимировать даже самый мёртвый сервер.</p><div class="tc-chips"><span>Программирование</span><span>Веб-сайты</span><span>Приложения</span><span>CRM-системы</span></div></article><article class="tcard" id="tc2" data-i="2" style="--cx:78.0%;--hy:15.4%"><div class="tc-top"><span>Разработка</span><b>03</b></div><h3>Маркетолог</h3><div class="tc-name">Гакаев Бекхан</div><p>Грамотно собирает рекламу и находит клиентов, мастер продаж, может продать ручку даже еврею.</p><div class="tc-chips"><span>Разработка</span><span>HTML / CSS</span><span>JavaScript</span><span>Backend</span></div></article>
+        <article class="tcard" id="tc0" data-i="0" style="--cx:26.5%;--hy:13.0%"><div class="tc-top"><span>Дизайн</span><b>01</b></div><h3>Дизайнер</h3><div class="tc-name">Алиев Адам</div><p>Рисует интерфейсы и дизайн-системы, собирает прототипы и доводит каждый экран до мелочей.</p><div class="tc-chips"><span>Дизайн</span><span>Figma</span><span>UI-кит</span><span>Прототипы</span></div></article><article class="tcard" id="tc1" data-i="1" style="--cx:48.5%;--hy:12.6%"><div class="tc-top"><span>Разработка</span><b>02</b></div><h3>Разработчик</h3><div class="tc-name">Сембиев Зелимхан</div><p>Отвечает за работу сайтов и приложений: может реанимировать даже самый мёртвый сервер.</p><div class="tc-chips"><span>Программирование</span><span>Веб-сайты</span><span>Приложения</span><span>CRM-системы</span></div></article><article class="tcard" id="tc2" data-i="2" style="--cx:78.0%;--hy:15.4%"><div class="tc-top"><span>Маркетинг</span><b>03</b></div><h3>Маркетолог</h3><div class="tc-name">Гакаев Бекхан</div><p>Грамотно собирает рекламу и находит клиентов, превращает интерес к продукту в заявки и считает каждый рубль рекламы.</p><div class="tc-chips"><span>Реклама</span><span>Аналитика</span><span>Воронки</span><span>Продажи</span></div></article>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="sh rv"><div><span class="eyebrow">Цены</span><h2 class="h2">Форматы<br>работы</h2></div><p>Ориентировочные цены. Точную стоимость считаем после брифа.</p></div>
+    <div class="plans">
+      <div class="plan card rv"><span class="n">01 · Старт</span><div class="pr"><small>от</small><b>80 000</b><span>₽</span></div><ul><li>Лендинг или визитка</li><li>Дизайн + вёрстка</li><li>Адаптив под мобильные</li><li>Срок 2–3 недели</li></ul><a href="#contact">Выбрать</a></div>
+      <div class="plan card feat rv"><span class="n">02 · Студия</span><div class="pr"><small>от</small><b>250 000</b><span>₽</span></div><ul><li>Многостраничный сайт</li><li>Айдентика и UI-кит</li><li>Анимации и motion</li><li>Срок 5–8 недель</li></ul><a href="#contact">Выбрать</a></div>
+      <div class="plan card rv"><span class="n">03 · Продукт</span><div class="pr"><small>от</small><b>600 000</b><span>₽</span></div><ul><li>Веб-приложение</li><li>Исследование и прототип</li><li>Дизайн-система</li><li>Поддержка после запуска</li></ul><a href="#contact">Выбрать</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="tst" id="reviews">
+  <div class="wrap">
+    <div class="sh rv"><div><span class="eyebrow">Отзывы</span><h2 class="h2">Что говорят<br>клиенты</h2></div><p>Отзывы-заглушки — позже заменим на реальные.</p></div>
+    <div class="tcols">
+      <div class="t card rv"><q>Команда быстро поняла задачу и предложила решение лучше, чем мы ожидали.</q><div class="who"><i class="slot" data-src="assets/avatar-1"></i><div>Имя Фамилия<span>Основатель, Компания</span></div></div></div>
+      <div class="t card rv"><q>Аккуратная работа с деталями. Сайт стал частью бренда, а не просто витриной.</q><div class="who"><i class="slot" data-src="assets/avatar-2"></i><div>Имя Фамилия<span>Маркетинг, Компания</span></div></div></div>
+      <div class="t card rv"><q>Приятно, когда дизайнеры понимают разработку и сразу думают о том, как это будет жить.</q><div class="who"><i class="slot" data-src="assets/avatar-3"></i><div>Имя Фамилия<span>CPO, Компания</span></div></div></div>
     </div>
   </div>
 </section>
@@ -646,13 +755,13 @@
 <section class="contact" id="contact">
   <div class="wrap">
     <div>
-      <span class="eyebrow rv">06 / Контакты</span>
+      <span class="eyebrow rv">Контакты</span>
       <h2 class="h2 rv">Расскажите<br>о проекте</h2>
       <p class="lead rv">Опишите задачу в двух словах — вернёмся с вопросами и примерным планом в течение рабочего дня.</p>
       <div class="cl rv">
         <a href="mailto:hello@garage.agency"><span>Почта</span><span>hello@garage.agency</span></a>
-        <a href="#contact"><span>Telegram</span><span>@garage_agency</span></a>
-        <a href="#contact"><span>VK</span><span>vk.com/garage_agency</span></a>
+        <a href="https://t.me/garage_agency" target="_blank" rel="noopener"><span>Telegram</span><span>@garage_agency</span></a>
+        <a href="https://vk.com/garage_agency" target="_blank" rel="noopener"><span>VK</span><span>vk.com/garage_agency</span></a>
       </div>
     </div>
 
@@ -911,7 +1020,7 @@
   $('again').onclick=()=>{form.reset();form.classList.remove('sent');ferr.textContent=''};
 
   // шапка меняет цвет поверх тёмных секций
-  const darkSecs=[...document.querySelectorAll('.about,.contact,footer,.kit')];
+  const darkSecs=[...document.querySelectorAll('.contact,footer,.kit')];
   function hdTheme(){
     const y=40;
     const d=darkSecs.some(el=>{if(el.classList.contains('kit')&&el.dataset.theme!=='dark')return false;const r=el.getBoundingClientRect();return r.top<=y&&r.bottom>=y});
@@ -1001,6 +1110,125 @@
     addEventListener('resize',()=>{size();draw(performance.now())});
     new IntersectionObserver(es=>{visible=es[0].isIntersecting;visible?start():stop()},{rootMargin:'120px'}).observe(stage);
   })();
+</script>
+
+<script>
+// ---------- HERO v2: заголовок из точек, реагирует на курсор ----------
+(function(){
+  const hx=document.getElementById('hx'),cv=document.getElementById('hxc');if(!hx||!cv)return;
+  const ctx=cv.getContext('2d'),html=document.documentElement;
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const INK='#0c0c0c',GREEN='#50c878',LINES=['Дизайн','который работает'];
+  let P=[],W=0,H=0,dpr=1,r0=3,R=110,mx=-1e4,my=-1e4,vis=true,raf=0,t0=0,lastW=0;
+  function build(intro){
+    W=hx.clientWidth;if(!W)return;lastW=W;dpr=Math.min(devicePixelRatio||1,2);
+    const m=document.createElement('canvas').getContext('2d');const L=W<640?['Дизайн','характером']:LINES;
+    m.font='700 100px "Inter Tight",system-ui,sans-serif';
+    const wmax=Math.max(...L.map(l=>m.measureText(l).width));
+    const fs=Math.min(280,100*W/wmax*.985),lh=fs*.96,base=fs*.8;
+    H=Math.ceil(base+lh+fs*.3);
+    const off=document.createElement('canvas');off.width=W;off.height=H;
+    const o=off.getContext('2d');o.font='700 '+fs+'px "Inter Tight",system-ui,sans-serif';o.fillStyle='#000';o.textBaseline='alphabetic';
+    L.forEach((l,i)=>o.fillText(l,0,base+i*lh));
+    const d=o.getImageData(0,0,W,H).data,step=Math.max(3,Math.round(fs/27));
+    r0=step*.47;R=Math.max(70,Math.min(130,W*.1));P=[];
+    for(let y=step/2;y<H;y+=step)for(let x=step/2;x<W;x+=step){
+      if(d[((y|0)*W+(x|0))*4+3]>120){
+        const p={hx:x,hy:y,x:x,y:y,vx:0,vy:0,t:0};
+        if(intro){p.x=Math.random()*W;p.y=Math.random()*H*1.6-H*.3;p.t=t0+(x/W)*700+Math.random()*350}
+        P.push(p);
+      }
+    }
+    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cv.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function frame(now){
+    if(!W)return;
+    const sw=(now-t0-1900)/1500*(W+160)-80,sweeping=now-t0>1900&&sw<W+80;
+    ctx.clearRect(0,0,W,H);
+    const ink=[],grn=[];
+    for(const p of P){
+      if(now<p.t){continue}
+      let ax=(p.hx-p.x)*.065,ay=(p.hy-p.y)*.065;
+      const dx=p.x-mx,dy=p.y-my,d2=dx*dx+dy*dy;
+      if(d2<R*R){const d=Math.sqrt(d2)||1,f=1-d/R;ax+=dx/d*f*3.4;ay+=dy/d*f*3.4}
+      p.vx=(p.vx+ax)*.82;p.vy=(p.vy+ay)*.82;p.x+=p.vx;p.y+=p.vy;
+      const disp=Math.hypot(p.x-p.hx,p.y-p.hy);
+      let g=Math.min(1,disp/26);
+      if(sweeping){const k=1-Math.abs(p.hx-sw)/55;if(k>g)g=k>0?k:g}
+      (g>.18?grn:ink).push(p,g);
+    }
+    ctx.fillStyle=INK;ctx.beginPath();
+    for(let i=0;i<ink.length;i+=2){const p=ink[i];ctx.moveTo(p.x+r0,p.y);ctx.arc(p.x,p.y,r0,0,6.283)}ctx.fill();
+    ctx.fillStyle=GREEN;ctx.beginPath();
+    for(let i=0;i<grn.length;i+=2){const p=grn[i],r=r0*(1+grn[i+1]*.55);ctx.moveTo(p.x+r,p.y);ctx.arc(p.x,p.y,r,0,6.283)}ctx.fill();
+  }
+  function loop(now){raf=requestAnimationFrame(loop);frame(now)}
+  function start(){if(!raf&&vis&&!reduce)raf=requestAnimationFrame(loop)}
+  function stop(){cancelAnimationFrame(raf);raf=0}
+  addEventListener('pointermove',e=>{
+    const b=cv.getBoundingClientRect();
+    if(e.clientY<b.top-R||e.clientY>b.bottom+R){mx=my=-1e4;return}
+    mx=e.clientX-b.left;my=e.clientY-b.top;
+  },{passive:true});
+  document.addEventListener('pointerleave',()=>{mx=my=-1e4});
+  addEventListener('pointerup',e=>{if(e.pointerType!=='mouse')mx=my=-1e4});
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;vis?start():stop()}).observe(hx);
+  let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(hx.clientWidth!==lastW){build(false);frame(performance.now())}},150)});
+  function go(){
+    const ready=document.fonts?document.fonts.load('700 100px "Inter Tight"','Дизайн с характером').catch(()=>{}):Promise.resolve();
+    ready.then(()=>{t0=performance.now();build(!reduce);frame(t0+5000);start()});
+  }
+  if(html.classList.contains('ld')){addEventListener('loader:done',go,{once:true});setTimeout(()=>{if(!P.length)go()},9000)}else go();
+})();
+</script>
+
+<div class="sb" id="sb" aria-hidden="true"><div class="sb-thumb" id="sbT"><span class="sb-pct" id="sbP">0</span></div></div>
+<script>
+// ---------- кастомный скроллбар ----------
+(function(){
+  const sb=document.getElementById('sb'),th=document.getElementById('sbT'),pct=document.getElementById('sbP');
+  const doc=document.scrollingElement||document.documentElement,caseEl=document.getElementById('case');
+  const PAD=14;let drag=null,hideT;
+  const sc=()=>caseEl.classList.contains('open')?caseEl:doc;
+  function m(){
+    const e=sc(),ch=e===doc?innerHeight:e.clientHeight,sh=e.scrollHeight,max=sh-ch;
+    if(max<=2){sb.style.display='none';return null}
+    sb.style.display='';const tr=ch-PAD*2;
+    return{e,max,tr,h:Math.max(48,tr*ch/sh)};
+  }
+  function upd(){
+    const v=m();if(!v)return;
+    const r=Math.max(0,Math.min(1,v.e.scrollTop/v.max));
+    th.style.height=v.h+'px';th.style.transform='translateY('+(PAD+r*(v.tr-v.h))+'px)';
+    pct.textContent=Math.round(r*100);
+    const yc=PAD+r*(v.tr-v.h)+v.h/2;let dk=false;
+    if(v.e===doc)dk=[...document.querySelectorAll('.kit[data-theme="dark"],.contact,footer')].some(el=>{const b=el.getBoundingClientRect();return b.top<=yc&&b.bottom>=yc});
+    sb.classList.toggle('lt',dk);
+  }
+  function act(){sb.classList.add('act');clearTimeout(hideT);hideT=setTimeout(()=>sb.classList.remove('act'),900)}
+  addEventListener('scroll',()=>{upd();act()},{passive:true});
+  caseEl.addEventListener('scroll',()=>{upd();act()},{passive:true});
+  addEventListener('resize',upd);
+  new ResizeObserver(upd).observe(document.body);
+  new MutationObserver(upd).observe(caseEl,{attributes:true,attributeFilter:['class']});
+  th.addEventListener('pointerdown',e=>{
+    const v=m();if(!v)return;
+    drag={y:e.clientY,top:v.e.scrollTop,v};th.setPointerCapture(e.pointerId);sb.classList.add('drag');e.preventDefault();
+  });
+  th.addEventListener('pointermove',e=>{
+    if(!drag)return;const v=drag.v;
+    v.e.scrollTo({top:drag.top+(e.clientY-drag.y)*v.max/(v.tr-v.h),behavior:'instant'});
+  });
+  const end=()=>{drag=null;sb.classList.remove('drag')};
+  th.addEventListener('pointerup',end);th.addEventListener('pointercancel',end);
+  sb.addEventListener('pointerdown',e=>{
+    if(e.target!==sb)return;const v=m();if(!v)return;
+    const r=(e.clientY-PAD-v.h/2)/(v.tr-v.h);
+    v.e.scrollTo({top:Math.max(0,Math.min(1,r))*v.max,behavior:'smooth'});
+  });
+  upd();
+})();
 </script>
 </body>
 </html>
